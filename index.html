@@ -1,580 +1,266 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LAB TRAIL 2027</title>
-
-<style>
-html,body{
-margin:0;
-padding:0;
-width:100%;
-height:100%;
-background:#0b1220;
-overflow:hidden;
-}
-iframe{
-border:none;
-width:100vw;
-height:100vh;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LAB TRAIL: 2027</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#0f1730;
+      --muted:#95a0ba;
+      --text:#e9eefc;
+      --line:#223056;
+      --good:#22c55e;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --btn:#2563eb;
+      --btn2:#111827;
+      --shadow:0 18px 45px rgba(0,0,0,.35);
+      --radius:18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background: radial-gradient(1200px 800px at 10% 10%, #18224a 0%, rgba(24,34,74,0) 55%),
+                  radial-gradient(900px 700px at 85% 20%, #1a2b5a 0%, rgba(26,43,90,0) 55%),
+                  radial-gradient(1000px 800px at 45% 90%, #141a33 0%, rgba(20,26,51,0) 60%),
+                  var(--bg);
+      color:var(--text);
+      padding:18px;
+    }
+    a{color:inherit}
+    .app{max-width:1100px;margin:0 auto}
+    .topbar{
+      display:flex;align-items:flex-end;justify-content:space-between;
+      gap:14px;flex-wrap:wrap;
+      padding:16px 16px 8px 16px;
+    }
+    .brand .t{font-weight:800;letter-spacing:.4px;font-size:20px}
+    .brand .s{color:var(--muted);font-size:12px;margin-top:4px}
+    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+    @media (max-width: 920px){.grid{grid-template-columns:1fr}}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+    h2{margin:0 0 10px 0;font-size:18px}
+    h3{margin:12px 0 8px 0;font-size:14px;color:#cfd7f2}
+    p{margin:8px 0;color:var(--muted);line-height:1.4}
+    .notice{
+      border:1px solid rgba(255,255,255,.09);
+      background:rgba(255,255,255,.03);
+      border-radius:14px;
+      padding:12px;
+      margin:10px 0;
+    }
+    .notice.good{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.08)}
+    .notice.warn{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.08)}
+    .notice.bad{border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.08)}
+    .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .pill{
+      display:inline-flex;gap:6px;align-items:center;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:12px;
+      color:#d6def9;
+    }
+    .mono{font-family:var(--mono)}
+    .muted{color:var(--muted)}
+    .small{font-size:12px}
+    .sep{height:1px;background:rgba(255,255,255,.08);margin:12px 0}
+    .btns{display:flex;gap:8px;flex-wrap:wrap}
+    button{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:650;
+      letter-spacing:.2px;
+    }
+    button.primary{background:rgba(37,99,235,.22);border-color:rgba(37,99,235,.45)}
+    button.ghost{background:transparent}
+    button.danger{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.38)}
+    button:disabled{opacity:.45;cursor:not-allowed}
+    .kbd{
+      font-family:var(--mono);
+      border:1px solid rgba(255,255,255,.15);
+      background:rgba(255,255,255,.04);
+      padding:2px 6px;border-radius:8px;
+    }
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width: 700px){.two-col{grid-template-columns:1fr}}
+    table.table{width:100%;border-collapse:collapse;font-size:13px}
+    .table th,.table td{
+      border-bottom:1px solid rgba(255,255,255,.07);
+      padding:8px 6px;
+      vertical-align:top;
+    }
+    .table th{color:#cfd7f2;text-align:left;font-weight:750}
+    ul.list{margin:8px 0 0 18px;color:var(--muted);line-height:1.35}
+    .counter{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:10px;padding:10px;border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.02);
+      margin:8px 0;
+    }
+    .counter .name{font-weight:750}
+    .counter .meta{color:var(--muted);font-size:12px;margin-top:2px}
+    .counter .actions{display:flex;align-items:center;gap:8px}
+    .counter button{padding:8px 10px;border-radius:12px}
+    .counter button.danger{background:rgba(239,68,68,.16)}
+  </style>
 </head>
-
 <body>
-  
-<div id="labtrail-root"></div>
-
-<style>
-  :root{
-    --bg:#0b1220;
-    --card:#111a2e;
-    --card2:#0f1830;
-    --ink:#e9eefc;
-    --muted:#9fb0d1;
-    --line:rgba(255,255,255,.10);
-    --accent:#5dd6c2;
-    --warn:#ffcc66;
-    --bad:#ff6b6b;
-    --good:#68f08a;
-    --btn:#1f2a44;
-    --btn2:#203055;
-    --shadow: 0 18px 60px rgba(0,0,0,.35);
-    --radius:18px;
-    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  }
-  *{ box-sizing:border-box; }
-  body{ margin:0; font-family:var(--sans); background:transparent; color:var(--ink); }
-  #labtrail-root{
-    max-width: 1100px;
-    margin: 18px auto;
-    padding: 14px;
-    background: radial-gradient(900px 420px at 10% 0%, rgba(93,214,194,.18), transparent 65%),
-                radial-gradient(900px 420px at 90% 0%, rgba(140,120,255,.14), transparent 65%),
-                linear-gradient(180deg, rgba(11,18,32,.92), rgba(11,18,32,.92));
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    box-shadow: var(--shadow);
-  }
-  .topbar{
-    display:flex; align-items:center; justify-content:space-between;
-    gap:12px; padding: 10px 12px; border-radius: 16px;
-    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-    border:1px solid var(--line);
-  }
-  .brand{ display:flex; flex-direction:column; gap:2px; }
-  .brand .t{ font-weight:800; letter-spacing:.4px; }
-  .brand .s{ color:var(--muted); font-size: 12px; }
-  .row{ display:flex; gap:12px; flex-wrap:wrap; }
-  .pill{
-    font-family: var(--mono);
-    font-size: 12px;
-    padding: 8px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--line);
-    background: rgba(255,255,255,.03);
-    color: var(--muted);
-    white-space: nowrap;
-  }
-  .pill strong{ color: var(--ink); }
-  .grid{
-    display:grid;
-    grid-template-columns: 1.1fr .9fr;
-    gap: 12px;
-    margin-top: 12px;
-  }
-  @media (max-width: 920px){
-    .grid{ grid-template-columns: 1fr; }
-  }
-  .card{
-    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 14px;
-  }
-  .card h2{ margin:0 0 10px; font-size: 18px; }
-  .card h3{ margin:0 0 8px; font-size: 15px; color: var(--muted); font-weight: 700; }
-  .muted{ color:var(--muted); }
-  .mono{ font-family: var(--mono); }
-  .sep{ height:1px; background: var(--line); margin: 10px 0; }
-  .btns{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px; }
-  button{
-    cursor:pointer;
-    border: 1px solid var(--line);
-    background: var(--btn);
-    color: var(--ink);
-    border-radius: 14px;
-    padding: 10px 12px;
-    font-weight: 700;
-    transition: transform .05s ease, background .15s ease, border-color .15s ease;
-  }
-  button:hover{ background: var(--btn2); }
-  button:active{ transform: translateY(1px); }
-  button.primary{
-    background: linear-gradient(180deg, rgba(93,214,194,.28), rgba(93,214,194,.10));
-    border-color: rgba(93,214,194,.40);
-  }
-  button.danger{
-    background: linear-gradient(180deg, rgba(255,107,107,.24), rgba(255,107,107,.08));
-    border-color: rgba(255,107,107,.40);
-  }
-  button.ghost{
-    background: rgba(255,255,255,.03);
-  }
-  button:disabled{
-    opacity:.45; cursor:not-allowed;
-  }
-  .kbd{
-    display:inline-block;
-    border:1px solid var(--line);
-    background: rgba(255,255,255,.03);
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .list{ margin: 8px 0 0; padding-left: 18px; color: var(--muted); }
-  .notice{
-    border: 1px solid var(--line);
-    background: rgba(255,255,255,.03);
-    border-radius: 14px;
-    padding: 10px 12px;
-    margin-top: 10px;
-  }
-  .notice.good{ border-color: rgba(104,240,138,.35); }
-  .notice.bad{ border-color: rgba(255,107,107,.35); }
-  .notice.warn{ border-color: rgba(255,204,102,.35); }
-  .table{
-    width:100%;
-    border-collapse: collapse;
-    border:1px solid var(--line);
-    border-radius: 14px;
-    overflow:hidden;
-  }
-  .table th,.table td{
-    padding: 8px 10px;
-    border-bottom:1px solid var(--line);
-    text-align:left;
-    font-size: 13px;
-  }
-  .table th{ color: var(--muted); font-weight: 800; background: rgba(255,255,255,.03); }
-  .table tr:last-child td{ border-bottom:none; }
-  .tag{
-    display:inline-block;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 999px;
-    border:1px solid var(--line);
-    background: rgba(255,255,255,.03);
-    color: var(--muted);
-  }
-  .tag.good{ border-color: rgba(104,240,138,.35); color: var(--good); }
-  .tag.bad{ border-color: rgba(255,107,107,.35); color: var(--bad); }
-  .tag.warn{ border-color: rgba(255,204,102,.35); color: var(--warn); }
-  .small{ font-size: 12px; }
-  .two-col{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  @media (max-width: 700px){
-    .two-col{ grid-template-columns:1fr; }
-  }
-  .counter{
-    display:flex; align-items:center; justify-content:space-between;
-    gap:10px; padding: 8px 10px; border:1px solid var(--line);
-    border-radius: 14px; background: rgba(255,255,255,.02);
-  }
-  .counter .name{ font-weight:800; }
-  .counter .meta{ color:var(--muted); font-size:12px; }
-  .counter .actions{ display:flex; gap:8px; }
-  .counter .actions button{ padding: 6px 10px; border-radius: 12px; font-weight:900; }
-</style>
+<div class="app" id="app"></div>
 
 <script>
 (() => {
-  const ROOT = document.getElementById("labtrail-root");
+  const ROOT = document.getElementById("app");
+  const STORAGE_KEY = "labtrail_v1";
 
-  /* =========================================================
-     Config “caos del mundo” (futuro: seleccionable en inicio)
-     ========================================================= */
-  const WORLD_PRESETS = {
-    standard: {
-      label: "Estándar",
-      eventChance: 0.30,
-      rareChanceGivenEvent: 0.05,
-      secondEventChance: 0.10,
-      maxActiveFlags: 2,         // ✅ pedido: máximo 2 flags activas
-      chainBoostMultiplier: 1.0
-    },
-    predictable: {
-      label: "Predecible",
-      eventChance: 0.18,
-      rareChanceGivenEvent: 0.03,
-      secondEventChance: 0.05,
-      maxActiveFlags: 1,
-      chainBoostMultiplier: 0.7
-    },
-    chaotic: {
-      label: "Caótico",
-      eventChance: 0.45,
-      rareChanceGivenEvent: 0.10,
-      secondEventChance: 0.18,
-      maxActiveFlags: 3,
-      chainBoostMultiplier: 1.3
-    }
-  };
-
-  const GAME_SETTINGS = {
-    worldPresetKey: "standard" // por ahora fijo. Futuro: elegir al empezar.
-  };
-
-  function getWorldConfig(){
-    return WORLD_PRESETS[GAME_SETTINGS.worldPresetKey] || WORLD_PRESETS.standard;
-  }
-
-  /* =========================================================
-     Costes / reglas base
-     ========================================================= */
   const COSTS = {
-    staff: { IP: 80000, S: 35000, T: 50000, R: 50000, AM: 30000, BM: 60000 },
-    ai: { GPT: 1000, AGI: 1000, PI: 10000 },
-    equipment: { MED: 150000, HIGH: 450000 },
+    staff: { IP:80000, S:35000, T:50000, R:50000, AM:30000, BM:60000 },
+    ai:    { GPT:1000,  AGI:1000,  PI:10000 },
+    equipment: { MED:150000, HIGH:450000 },
     opsRate: 0.20,
     overheadRate: 0.20
   };
 
-  const EQUIP_EFFECTS = {
-    MED: { cap: 2, prod: 1 },
-    HIGH: { cap: 7, prod: 4 }
-  };
-
   const AI_AVAILABLE = {
-    GPT: (period) => true,
-    AGI: (period) => period >= 5,
-    PI:  (period) => period >= 10
+    GPT: (p) => true,
+    AGI: (p) => p >= 5,
+    PI:  (p) => p >= 10
   };
 
-  /* =========================================================
-     Eventos + flags + encadenados
-     - NO afectan a costes directamente
-     ========================================================= */
+  const WORLDS = {
+    predictable: { id:"predictable", label:"Predecible", eventScale:0.9, flagCap:2 },
+    chaotic:     { id:"chaotic",     label:"Caótico",    eventScale:1.2, flagCap:2 }
+  };
 
-  const EVENTS = [
-    // Negativos
-    {
-      id:"equip_broken", rare:false, duration:1,
-      name:"🔧 Equipo averiado",
-      text:"¡Mala suerte! Uno de tus equipos se avería y el servicio técnico tarda en llegar.",
-      mods:[
-        { kind:"delta", var:"capExp", value:-2 }
-      ],
-      flags:[{id:"flag_equip_stress", dur:1}]
-    },
-    {
-      id:"admin_issue", rare:false, duration:2,
-      name:"🧾 Problema administrativo",
-      text:"La oficina de gestión se ha colapsado. Facturas atascadas, compras congeladas.",
-      mods:[
-        { kind:"delta", var:"effOp", value:-2 }
-      ],
-      flags:[{id:"flag_admin_colapso", dur:2}]
-    },
-    {
-      id:"funding_delay", rare:false, duration:1,
-      name:"⏳ Retraso en financiación",
-      text:"Te conceden el proyecto… pero el dinero llega tarde.",
-      mods:[
-        { kind:"mul_next_budget", value:0.75 } // afecta al presupuesto del siguiente periodo
-      ],
-      flags:[]
-    },
-    {
-      id:"key_sick", rare:false, duration:1,
-      name:"🤒 Baja médica clave",
-      text:"Un miembro clave del equipo coge una baja larga.",
-      mods:[
-        { kind:"delta", var:"prodSci", value:-2 }
-      ],
-      flags:[]
-    },
-    {
-      id:"bad_reagents", rare:false, duration:0,
-      name:"🧪 Reactivos defectuosos",
-      text:"Los reactivos salen mal. Repetís experimentos y perdéis semanas.",
-      mods:[
-        { kind:"mul", var:"articles", value:0.75 },
-        { kind:"delta", var:"ideas", value:-1 }
-      ],
-      flags:[]
-    },
-    {
-      id:"harsh_reviewer", rare:true, duration:2,
-      name:"🕵️ Revisor especialmente duro",
-      text:"Un revisor te desmonta el enfoque. Te obliga a rediseñar parte del trabajo.",
-      mods:[
-        { kind:"delta", var:"impactMean", value:-2 },
-        { kind:"delta", var:"ratio", value:-5 }
-      ],
-      flags:[{id:"flag_scrutiny", dur:2}]
-    },
-
-    // Positivos
-    {
-      id:"intl_collab", rare:false, duration:2,
-      name:"🌍 Colaboración internacional",
-      text:"Conectas con un laboratorio puntero. Compartís muestras y metodología.",
-      mods:[
-        { kind:"delta", var:"reput", value:+2 },
-        { kind:"delta", var:"ratio", value:+5 }
-      ],
-      flags:[{id:"flag_colab_internacional", dur:2}]
-    },
-    {
-      id:"young_award", rare:true, duration:2,
-      name:"🏅 Premio joven investigador",
-      text:"Te dan un premio. Tu nombre empieza a sonar.",
-      mods:[
-        { kind:"delta", var:"reput", value:+4 },
-        { kind:"mul", var:"budgetMean", value:1.10 }
-      ],
-      flags:[{id:"flag_award_momentum", dur:2}]
-    },
-    {
-      id:"top_paper", rare:false, duration:1,
-      name:"📈 Paper top inesperado",
-      text:"Sale un artículo muy potente. Las citas empiezan a subir.",
-      mods:[
-        { kind:"delta", var:"impactIndex", value:+2 },
-        { kind:"delta", var:"reput", value:+1 }
-      ],
-      flags:[{id:"flag_paper_momentum", dur:1}]
-    },
-    {
-      id:"ai_automation", rare:false, duration:1,
-      name:"🤖 Automatización brutal",
-      text:"Encuentras un flujo de IA que te ahorra días de trabajo.",
-      mods:[
-        { kind:"delta", var:"effOp", value:+3 }
-      ],
-      flags:[]
-    },
-    {
-      id:"disruptive_idea", rare:true, duration:0,
-      name:"🧠 Idea disruptiva",
-      text:"Una conversación casual te da una idea realmente disruptiva.",
-      mods:[
-        { kind:"delta", var:"ideas", value:+4 },
-        { kind:"delta", var:"impactMean", value:+1 }
-      ],
-      flags:[]
-    },
-    {
-      id:"core_facility", rare:false, duration:1,
-      name:"🧰 Infraestructura compartida",
-      text:"La universidad te abre un core facility durante un tiempo.",
-      mods:[
-        { kind:"delta", var:"capExp", value:+4 }
-      ],
-      flags:[{id:"flag_core_access", dur:1}]
-    }
-  ];
-
-  // Encadenados: boosts por flags activas (se aplican al sorteo del próximo evento)
-  const CHAIN_BOOSTS = [
-    // Colaboración -> aumenta prob de paper top y premio
-    { flag:"flag_colab_internacional", event:"top_paper", boost:0.15 },
-    { flag:"flag_colab_internacional", event:"young_award", boost:0.05 },
-
-    // Paper top -> aumenta prob de premio y colaboración
-    { flag:"flag_paper_momentum", event:"young_award", boost:0.10 },
-    { flag:"flag_paper_momentum", event:"intl_collab", boost:0.10 },
-
-    // Admin colapso -> aumenta prob de retraso financiación
-    { flag:"flag_admin_colapso", event:"funding_delay", boost:0.20 },
-
-    // Equip estrés -> aumenta prob de reactivos defectuosos
-    { flag:"flag_equip_stress", event:"bad_reagents", boost:0.10 },
-
-    // Core facility -> aumenta paper top pero también revisor duro (más escrutinio)
-    { flag:"flag_core_access", event:"top_paper", boost:0.10 },
-    { flag:"flag_core_access", event:"harsh_reviewer", boost:0.05 }
-  ];
-
-  /* =========================================================
-     Utilidades
-     ========================================================= */
-  const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
-  const floor = Math.floor;
-
-  function eur(x){
-    const n = Math.round(x);
-    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
-  }
-  function yearFromPeriod(p){ return 2027 + p; }
-
-  function rand(){
-    // Mersenne simple no; suficiente Math.random
-    return Math.random();
+  function getWorldConfig(){
+    const w = (STATE.world || "predictable");
+    return WORLDS[w] || WORLDS.predictable;
   }
 
-  function weightedPick(items){
-    // items: [{item, w}]
-    const sum = items.reduce((s, it) => s + Math.max(0, it.w), 0);
-    if (sum <= 0) return items[0]?.item ?? null;
-    let r = rand() * sum;
-    for (const it of items){
-      r -= Math.max(0, it.w);
-      if (r <= 0) return it.item;
-    }
-    return items[items.length-1].item;
-  }
+  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+  function floor(v){ return Math.floor(v); }
+  function eur(n){ return new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(n||0); }
+  function deepClone(o){ return JSON.parse(JSON.stringify(o)); }
 
-  function deepClone(obj){ return JSON.parse(JSON.stringify(obj)); }
+  function yearFromPeriod(p){ return 2027 + (p||0); }
 
-  /* =========================================================
-     Flags (máx 2 activas por preset actual)
-     ========================================================= */
-  function addFlag(state, flagId, durationPeriods){
-    const cfg = getWorldConfig();
-    const now = state.period;
-    const expiresAt = now + durationPeriods + 1; // activo este periodo + dur
-    const idx = state.activeFlags.findIndex(f => f.id === flagId);
-    if (idx !== -1){
-      state.activeFlags[idx].expiresAt = Math.max(state.activeFlags[idx].expiresAt, expiresAt);
-      return;
-    }
-    state.activeFlags.push({ id: flagId, addedAt: now, expiresAt });
-    while (state.activeFlags.length > cfg.maxActiveFlags){
-      state.activeFlags.sort((a,b)=>a.addedAt-b.addedAt);
-      state.activeFlags.shift();
-    }
+  function wipeSave(){
+    localStorage.removeItem(STORAGE_KEY);
   }
-  function pruneExpiredFlags(state){
-    const now = state.period;
-    state.activeFlags = state.activeFlags.filter(f => f.expiresAt > now);
+  function load(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    }catch(e){ return null; }
   }
-  function applyChainBoost(baseProb, boostProb){
-    const cfg = getWorldConfig();
-    return Math.min(1, baseProb + boostProb * cfg.chainBoostMultiplier);
+  function save(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE));
   }
-
-  /* =========================================================
-     Estado del juego
-     ========================================================= */
-  const SAVE_KEY = "LABTRAIL_SAVE_V1";
 
   function newGame(){
     return {
       screen: "title",
+      world: "predictable",
+
       period: 0,
-      budget: 300000,                 // presupuesto inicial (ajustable)
-      nextBudgetMultiplier: 1.0,      // por eventos tipo retraso financiación
+
+      budgetGross: 200000,            // presupuesto bruto del periodo (ingreso)
+      budget: 0,                       // presupuesto disponible (calculado)
 
       staff: { IP:1, S:0, T:0, R:0, AM:0, BM:0 },
-      ai: { GPT:0, AGI:0, PI:0 },
+      ai:    { GPT:0, AGI:0, PI:0 },
       equip: { MED:0, HIGH:0 },
-      equipHistory: [],              // {type:"MED"/"HIGH", period:int}
+      equipHistory: [],
 
-      // Decisiones del año
-      piTime: "read",                // read / manage / collab
-      overheadChoice: null,          // "extraStaff" / "extraAI" / "extraEquip" / "institution"
-      overheadTemp: {                // efectos temporales de overheads
+      piTime: "read",
+      overheadChoice: null,
+      overheadTemp: {
         staffVirtual: { AM:0, T:0 },
-        aiVirtual: { GPT:0, AGI:0, PI:0 },
+        aiVirtual:    { GPT:0, AGI:0, PI:0 },
         equipVirtual: { MED:0, HIGH:0 },
-        instBonus: { effOp:0, reput:0 }
+        instBonus:    { effOp:0, reput:0 }
       },
 
-      // Variables acumuladas
+      nextBudgetMultiplier: 1.0,
+
       articlesTotal: 0,
       projectsTotal: 0,
-      impactIndex: 1,                // índice acumulado estilo h-index simplificado (>=1)
+      impactIndex: 1,
 
-      // Variables por periodo (último año)
       last: {
-        layoffs: false,
-        layoffsNote: "",
-        events: [],
-        ideas: 0,
-        capExp: 1,
-        prodSci: 1,
-        effOp: 1,
-        innovLevel: 0,               // 0/1/2
-        reput: 1,
-        projectsWritten: 0,
-        ratio: 10,
-        projectsGranted: 0,
-        articles: 0,
-        impactMean: 1,
-        budgetMean: 100000,
-        nextBudget: 0
+        layoffs:false,
+        layoffsNote:"",
+        reput:1,
+        nextBudget:0,
+        ideas:0,
+        capExp:1,
+        prodSci:1,
+        effOp:1,
+        innovLevel:0,
+        projectsWritten:0,
+        ratio:10,
+        projectsGranted:0,
+        articles:0,
+        impactMean:0,
+        budgetMean:100000,
+        events:[]
       },
 
-      // Eventos / flags
-      activeEvents: [],              // [{id, name, text, endsAt, mods}]
-      activeFlags: [],               // [{id, addedAt, expiresAt}]
-
-      // UI
+      activeEvents: [],
+      activeFlags: [],
       toast: ""
     };
   }
 
   let STATE = load() || newGame();
 
-  function save(){
-    try{ localStorage.setItem(SAVE_KEY, JSON.stringify(STATE)); }catch(e){}
-  }
-  function load(){
-    try{
-      const raw = localStorage.getItem(SAVE_KEY);
-      if (!raw) return null;
-      const s = JSON.parse(raw);
-      // Normaliza por si faltan claves en actualizaciones
-      return { ...newGame(), ...s };
-    }catch(e){ return null; }
-  }
-  function wipeSave(){
-    try{ localStorage.removeItem(SAVE_KEY); }catch(e){}
-  }
-
-  function setScreen(screen){
-    STATE.screen = screen;
-    save();
-    render();
-  }
-
   function toast(msg){
     STATE.toast = msg;
-    save();
-    render();
-    setTimeout(()=>{
-      if (STATE.toast === msg){
-        STATE.toast = "";
-        save();
-        render();
-      }
-    }, 2500);
+    setTimeout(()=>{ STATE.toast=""; render(); }, 1800);
   }
 
-  /* =========================================================
-     Cálculos de costes (solo para presupuesto)
-     ========================================================= */
+  function setScreen(s){
+    STATE.screen = s;
+    render();
+    save();
+  }
+
+  function resetOverheadTemp(){
+    STATE.overheadChoice = null;
+    STATE.overheadTemp = {
+      staffVirtual: { AM:0, T:0 },
+      aiVirtual:    { GPT:0, AGI:0, PI:0 },
+      equipVirtual: { MED:0, HIGH:0 },
+      instBonus:    { effOp:0, reput:0 }
+    };
+  }
+
   function staffCost(staff){
-    return (
-      staff.IP * COSTS.staff.IP +
-      staff.S  * COSTS.staff.S +
-      staff.T  * COSTS.staff.T +
-      staff.R  * COSTS.staff.R +
-      staff.AM * COSTS.staff.AM +
-      staff.BM * COSTS.staff.BM
-    );
+    let c = 0;
+    for (const k of Object.keys(COSTS.staff)){
+      c += (staff[k]||0) * COSTS.staff[k];
+    }
+    return c;
   }
   function aiCost(ai, period){
-    // Si no está disponible en ese periodo, su coste se considera 0 (no debería existir)
     let c = 0;
     c += (ai.GPT||0) * COSTS.ai.GPT;
     c += (AI_AVAILABLE.AGI(period) ? (ai.AGI||0) : 0) * COSTS.ai.AGI;
@@ -598,11 +284,195 @@ height:100vh;
   }
 
   /* =========================================================
+     Presupuesto: bruto vs disponible
+     - budgetGross: ingreso del periodo (proyectos concedidos)
+     - budget: disponible para compras (NO puede ser < 0)
+     - El disponible se recalcula siempre como:
+         max(0, budgetGross - (costes personal + costes IA + operativos + overheads))
+     - Equipamiento SÍ resta directamente del budgetGross (pago único).
+     ========================================================= */
+  function getBudgetGross(){
+    // compatibilidad con partidas antiguas
+    if (typeof STATE.budgetGross !== "number") STATE.budgetGross = (typeof STATE.budget === "number" ? STATE.budget : 0);
+    return STATE.budgetGross;
+  }
+  function getBudgetAvailable(){
+    const gross = getBudgetGross();
+    const t = totalAnnualCost(STATE.staff, STATE.ai, STATE.period);
+    return Math.max(0, Math.round(gross - t.total));
+  }
+  function recalcBudget(){
+    STATE.budget = getBudgetAvailable();
+  }
+  function canAffordCurrentSetup(){
+    // Si no alcanza, el disponible será 0, pero esta función indica si “cabe” sin ir a negativo.
+    const gross = getBudgetGross();
+    const t = totalAnnualCost(STATE.staff, STATE.ai, STATE.period);
+    return gross >= t.total;
+  }
+  function canAffordWith(staff, ai, gross, period){
+    const t = totalAnnualCost(staff, ai, period);
+    return gross >= t.total;
+  }
+
+  /* =========================================================
+     Flags (máximo 2 activas)
+     ========================================================= */
+  function addFlag(state, id, dur){
+    const cap = getWorldConfig().flagCap || 2;
+    const existing = state.activeFlags.find(f => f.id === id);
+    if (existing){
+      existing.expiresAt = Math.max(existing.expiresAt, state.period + dur + 1);
+      return;
+    }
+    if (state.activeFlags.length >= cap){
+      state.activeFlags.sort((a,b)=>a.expiresAt-b.expiresAt);
+      state.activeFlags.shift();
+    }
+    state.activeFlags.push({ id, expiresAt: state.period + dur + 1 });
+  }
+  function hasFlag(state, id){
+    return state.activeFlags.some(f => f.id === id && f.expiresAt > state.period);
+  }
+  function pruneExpiredFlags(state){
+    state.activeFlags = state.activeFlags.filter(f => f.expiresAt > state.period);
+  }
+
+  /* =========================================================
+     Eventos
+     ========================================================= */
+  const EVENTS = [
+    {
+      id:"equip_broken",
+      name:"Equipo averiado",
+      text:"Un equipo clave falla. Pierdes capacidad y eficiencia temporalmente.",
+      baseProb: 0.18,
+      duration: 1,
+      mods: [
+        { kind:"delta", var:"capExp", value:-2 },
+        { kind:"delta", var:"effOp", value:-1 }
+      ]
+    },
+    {
+      id:"admin_issue",
+      name:"Problema administrativo",
+      text:"Un retraso burocrático te roba tiempo operativo y reduce proyectos.",
+      baseProb: 0.16,
+      duration: 0,
+      mods: [
+        { kind:"delta", var:"effOp", value:-2 },
+        { kind:"delta", var:"ratio", value:-3 }
+      ]
+    },
+    {
+      id:"funding_delay",
+      name:"Retraso en financiación",
+      text:"La institución retrasa pagos, lo que complica el año siguiente.",
+      baseProb: 0.12,
+      duration: 1,
+      mods: [
+        { kind:"mul_next_budget", value:0.85 }
+      ]
+    },
+    {
+      id:"paper_top",
+      name:"Paper en revista top",
+      text:"Publicas un paper excepcional. Aumenta reputación e impacto.",
+      baseProb: 0.10,
+      duration: 1,
+      mods: [
+        { kind:"delta", var:"reput", value:2 },
+        { kind:"delta", var:"impactIndex", value:2 },
+        { kind:"delta", var:"ratio", value:4 }
+      ]
+    },
+    {
+      id:"intl_collab",
+      name:"Colaboración internacional",
+      text:"Una colaboración abre nuevas ideas y mejora el éxito futuro.",
+      baseProb: 0.12,
+      duration: 2,
+      flags: [{ id:"flag_collab", dur:2 }],
+      mods: [
+        { kind:"delta", var:"ideas", value:2 },
+        { kind:"delta", var:"ratio", value:3 }
+      ]
+    },
+    {
+      id:"research_award",
+      name:"Premio investigador",
+      text:"Recibes un reconocimiento que impulsa reputación y resultados.",
+      baseProb: 0.08,
+      duration: 2,
+      mods: [
+        { kind:"delta", var:"reput", value:3 },
+        { kind:"delta", var:"ratio", value:3 }
+      ]
+    },
+    {
+      id:"student_sick",
+      name:"Baja en el equipo",
+      text:"Un miembro del equipo está de baja. Baja productividad temporal.",
+      baseProb: 0.12,
+      duration: 0,
+      mods: [
+        { kind:"delta", var:"prodSci", value:-2 }
+      ]
+    },
+    {
+      id:"ai_breakthrough",
+      name:"Mejora de AI",
+      text:"Los módulos de AI se integran mejor: eficiencia y productividad suben.",
+      baseProb: 0.09,
+      duration: 1,
+      mods: [
+        { kind:"delta", var:"effOp", value:2 },
+        { kind:"delta", var:"prodSci", value:1 }
+      ]
+    }
+  ];
+
+  function rand(){
+    return Math.random();
+  }
+
+  function maybeAddEventsThisPeriod(){
+    const world = getWorldConfig();
+    const scale = world.eventScale || 1.0;
+
+    const probPaperTop = hasFlag(STATE, "flag_collab") ? 0.18 : null;
+
+    for (const ev of EVENTS){
+      let p = ev.baseProb * scale;
+
+      if (ev.id === "paper_top" && probPaperTop !== null){
+        p = probPaperTop * scale;
+      }
+
+      if (rand() < p){
+        attachEvent(ev);
+      }
+    }
+  }
+
+  function attachEvent(evDef){
+    const p = STATE.period;
+    const endsAt = p + (evDef.duration || 0);
+    STATE.activeEvents.push({
+      id: evDef.id,
+      name: evDef.name,
+      text: evDef.text,
+      endsAt,
+      mods: deepClone(evDef.mods || [])
+    });
+
+    for (const f of (evDef.flags || [])){
+      addFlag(STATE, f.id, f.dur);
+    }
+  }
+
+  /* =========================================================
      Despidos automáticos / recortes IA (inicio de año)
-     - NO toca el IP (fijo)
-     - Regla de recorte:
-       1) recorta IA (GPT, AGI, PI) en ese orden
-       2) recorta personal: AM, BM, S, T, R (orden confirmado)
      ========================================================= */
   function enforceAffordability(){
     const p = STATE.period;
@@ -611,13 +481,11 @@ height:100vh;
 
     const canAfford = () => {
       const t = totalAnnualCost(STATE.staff, STATE.ai, p);
-      return STATE.budget >= t.total;
+      return getBudgetGross() >= t.total;
     };
 
-    // Si ya se puede, ok
     if (canAfford()) return { layoffs:false, note:"" };
 
-    // 1) recorte IA
     const aiOrder = ["GPT","AGI","PI"];
     for (const k of aiOrder){
       while (STATE.ai[k] > 0 && !canAfford()){
@@ -627,7 +495,6 @@ height:100vh;
       }
     }
 
-    // 2) recorte personal (sin IP)
     const staffOrder = ["AM","BM","S","T","R"];
     for (const k of staffOrder){
       while (STATE.staff[k] > 0 && !canAfford()){
@@ -637,26 +504,18 @@ height:100vh;
       }
     }
 
-    // Si aun así no puede (caso extremo), deja presupuesto en 0 y sigue
     if (!canAfford()){
-      // No podemos despedir más: forzamos presupuesto a 0 para no entrar en negativo.
-      // (En la práctica, con IP fijo, si el presupuesto es demasiado bajo, el jugador "quiebra".)
-      // Aquí lo manejamos con mensaje.
-      STATE.budget = 0;
       layoffs = true;
-      note.push("⚠️ Presupuesto insuficiente incluso tras recortes (IP fijo).");
+      note.push("Presupuesto insuficiente incluso tras recortes (IP fijo). Disponible = 0.");
     }
 
     return { layoffs, note: note.join(" · ") };
   }
 
   /* =========================================================
-     Variables derivadas (con temporales de overheads + eventos activos)
+     Variables derivadas
      ========================================================= */
   function innovationLevel(){
-    // Alta: equipo adquirido en últimos 4 periodos
-    // Media: en últimos 10
-    // Baja: hace >10 o ninguno
     const p = STATE.period;
     if (STATE.equipHistory.length === 0) return 0;
     const last = Math.max(...STATE.equipHistory.map(e => e.period));
@@ -667,7 +526,6 @@ height:100vh;
   }
 
   function activeEventMods(){
-    // Devuelve lista de mods de eventos activos en este periodo
     const p = STATE.period;
     return STATE.activeEvents
       .filter(ev => ev.endsAt >= p)
@@ -677,7 +535,6 @@ height:100vh;
   function computeDerived(){
     const p = STATE.period;
 
-    // Base conteos con temporales overhead
     const staff = STATE.staff;
     const ai = STATE.ai;
     const equip = STATE.equip;
@@ -688,7 +545,7 @@ height:100vh;
     const vAI = STATE.overheadTemp.aiVirtual;
     const vEquip = STATE.overheadTemp.equipVirtual;
 
-    const totalPI = 1 + (ai.PI || 0); // PI real + PI virtual por móduloPI (idéntico efecto PI en Ideas)
+    const totalPI = 1 + (ai.PI || 0);
 
     const eqMed = equip.MED + (vEquip.MED||0);
     const eqHigh = equip.HIGH + (vEquip.HIGH||0);
@@ -703,30 +560,19 @@ height:100vh;
     const AM = staff.AM + vStaffAM;
     const BM = staff.BM;
 
-    // Innovación (0/1/2)
     const innov = innovationLevel();
 
-    // Capacidad experimental (base 1)
     let capExp = Math.max(1, 1 + 2*eqMed + 7*eqHigh + 5*modPI + 1*T + 0.5*S + 0.5*R);
-
-    // Productividad científica (base 1)
     let prodSci = Math.max(1, 1 + 2*R + 1*(modGPT+modAGI) + 0.5*eqMed + 1*eqHigh + 0.5*S);
-
-    // Eficiencia operativa (base 1)
     let effOp = Math.max(1, 1 + 2*AM + 1*(modGPT+modAGI));
 
-    // Reputación (base, se recalcula al cierre usando acumulados; aquí la aproximamos para “estimados”)
-    // La reputación real se recalcula en closeYear(), pero necesitamos estimados intermedios.
     let reput = STATE.last.reput || 1;
 
-    // Ideas: base 4 por cada PI (real + por cada móduloPI)
     let ideas = (4 * totalPI) + 2*(eqMed + eqHigh) + 1*T + 2*BM + 3*R;
 
-    // Bonos temporales por overhead “institución gestiona”
     effOp += (STATE.overheadTemp.instBonus.effOp || 0);
     reput += (STATE.overheadTemp.instBonus.reput || 0);
 
-    // Ajuste por eventos activos (deltas)
     const mods = activeEventMods();
     for (const m of mods){
       if (m.kind === "delta"){
@@ -747,9 +593,6 @@ height:100vh;
     return { ideas, capExp, prodSci, effOp, innovLevel: innov, reput, totalPI, BM, modPI };
   }
 
-  /* =========================================================
-     Proyectos, ratio, artículos, impacto, presupuesto medio
-     ========================================================= */
   function bonusTimePI(){
     if (STATE.piTime === "read") return 0;
     if (STATE.piTime === "manage") return 1;
@@ -758,13 +601,11 @@ height:100vh;
   }
 
   function computeProjectsWritten(ideas, prodSci, effOp){
-    // Depende principalmente de prodSci, también de effOp y tiempo PI
     const v = floor(0.6*prodSci + 0.4*effOp + bonusTimePI());
     return clamp(Math.min(ideas, Math.max(0, v)), 0, 9999);
   }
 
   function computeRatio(reput, capExp, prodSci, BM, totalPI){
-    // Ratio de éxito (5..70) con BM importante + PI explícito
     let ratio = 10
       + 2*Math.sqrt(reput)
       + 1.2*Math.sqrt(capExp)
@@ -773,7 +614,6 @@ height:100vh;
       + bonusTimePI()
       + 3*totalPI;
 
-    // Mods por eventos activos (delta ratio)
     const mods = activeEventMods();
     for (const m of mods){
       if (m.kind === "delta" && m.var === "ratio") ratio += m.value;
@@ -784,146 +624,44 @@ height:100vh;
   }
 
   function computeArticles(prodSci, effOp, capExp, reput){
-    // Depende bastante de eficiencia, algo de reputación/capacidad
     let a = floor(0.35*prodSci + 0.55*effOp + 0.20*Math.sqrt(capExp) + 0.15*Math.sqrt(reput));
     a = Math.max(0, a);
-
-    // Mods por eventos (multiplicador)
-    const mods = activeEventMods();
-    for (const m of mods){
-      if (m.kind === "mul" && m.var === "articles") a = floor(a * m.value);
-    }
-
-    return Math.max(0, a);
+    return a;
   }
 
   function computeImpactMean(reput, prodSci, innovLevel){
-    let im = 1 + 0.25*Math.sqrt(reput) + 0.25*Math.sqrt(prodSci) + 0.6*innovLevel;
-
-    // Mods por eventos (delta)
-    const mods = activeEventMods();
-    for (const m of mods){
-      if (m.kind === "delta" && m.var === "impactMean") im += m.value;
-    }
-
-    return clamp(Math.round(im * 10)/10, 1, 10);
+    let v = 2 + 0.4*Math.sqrt(reput) + 0.3*Math.sqrt(prodSci) + 0.8*innovLevel;
+    v = clamp(Math.round(v), 1, 10);
+    return v;
   }
 
-  function computeReputation(articlesTotal, projectsTotal, layoffsRecent){
-    // Derivada de artículos acumulados, proyectos acumulados y penalización por despidos recientes
-    const penalty = layoffsRecent ? 2 : 0;
-    const r = 1 + Math.sqrt(Math.max(0, articlesTotal)) + Math.sqrt(Math.max(0, projectsTotal)) - penalty;
-    return Math.max(1, Math.round(r));
+  function updateImpactIndex(current, articles, impactMean){
+    const gain = Math.round(articles * (impactMean/10) * 1.2);
+    return Math.max(1, current + gain);
+  }
+
+  function computeReputation(articlesTotal, projectsTotal, hadLayoffs){
+    let r = 1 + 0.2*Math.sqrt(articlesTotal) + 0.3*Math.sqrt(projectsTotal);
+    if (hadLayoffs) r -= 1.0;
+    r = Math.max(1, Math.round(r));
+    return r;
   }
 
   function computeBudgetMean(reput, teamSize, innovLevel, capExp, BM){
-    // 100k..300k progresivo según Reput, tamaño, innovación, capacidad; BM añade un poco
-    const score =
-      0.25*Math.sqrt(reput) +
-      0.20*teamSize +
-      0.25*innovLevel +
-      0.30*Math.sqrt(capExp);
-
-    const s = clamp(score, 0, 10) / 10;
-    let mean = 100000 + 200000*s;
-
-    // BM pequeño efecto (hasta +10%)
-    const bmMult = clamp(1 + 0.02*BM, 1, 1.10);
-    mean *= bmMult;
-
-    // Mods por eventos (multiplicador)
-    const mods = activeEventMods();
-    for (const m of mods){
-      if (m.kind === "mul" && m.var === "budgetMean") mean *= m.value;
-    }
-
-    return Math.round(mean);
-  }
-
-  function updateImpactIndex(prevIndex, articles, impactMean){
-    // Índice acumulado tipo h-index simplificado
-    // ImpactoIndex_{t+1} = ImpactoIndex_t + floor( (Articulos * ImpactoMedio)/(10+ImpactoIndex_t) * 3 )
-    let add = floor(((articles * impactMean) / (10 + prevIndex)) * 3);
-    add = Math.max(0, add);
-    return Math.max(1, prevIndex + add);
-  }
-
-  /* =========================================================
-     Overheads (temporales)
-     ========================================================= */
-  function resetOverheadTemp(){
-    STATE.overheadTemp = {
-      staffVirtual: { AM:0, T:0 },
-      aiVirtual: { GPT:0, AGI:0, PI:0 },
-      equipVirtual: { MED:0, HIGH:0 },
-      instBonus: { effOp:0, reput:0 }
-    };
-    STATE.overheadChoice = null;
+    let x = 100000
+      + 12000*Math.sqrt(reput)
+      + 8000*teamSize
+      + 16000*innovLevel
+      + 5000*Math.sqrt(capExp)
+      + 15000*BM;
+    x = clamp(Math.round(x), 100000, 300000);
+    return x;
   }
 
   function applyOverheadInstitution(){
     STATE.overheadChoice = "institution";
-    resetOverheadTemp();
-    STATE.overheadTemp.instBonus = { effOp:2, reput:1 }; // ✅ constante fijada
-  }
-
-  /* =========================================================
-     Evento: sorteo con encadenados + flags activas (máx 2)
-     ========================================================= */
-  function computeEventWeight(event){
-    // peso base
-    let w = event.rare ? 1 : 4; // normales más frecuentes
-    // boosts por flags
-    const cfg = getWorldConfig();
-    for (const f of STATE.activeFlags){
-      for (const b of CHAIN_BOOSTS){
-        if (b.flag === f.id && b.event === event.id){
-          // boost expresado como prob; lo convertimos a peso sumando proporcional
-          w += (b.boost * 20) * cfg.chainBoostMultiplier; // escala simple
-        }
-      }
-    }
-    return Math.max(0, w);
-  }
-
-  function maybeAddEventsThisPeriod(){
-    const cfg = getWorldConfig();
-
-    function rollOneEvent(){
-      if (rand() > cfg.eventChance) return null;
-      const isRare = rand() < cfg.rareChanceGivenEvent;
-
-      const pool = EVENTS.filter(e => e.rare === isRare);
-      const pick = weightedPick(pool.map(e => ({ item: e, w: computeEventWeight(e) })));
-      return pick || null;
-    }
-
-    const e1 = rollOneEvent();
-    if (e1) attachEvent(e1);
-
-    // segundo evento normal opcional
-    if (e1 && rand() < cfg.secondEventChance){
-      const pool = EVENTS.filter(e => !e.rare);
-      const pick = weightedPick(pool.map(e => ({ item: e, w: computeEventWeight(e) })));
-      if (pick) attachEvent(pick);
-    }
-  }
-
-  function attachEvent(evDef){
-    const p = STATE.period;
-    const endsAt = p + (evDef.duration || 0);
-    STATE.activeEvents.push({
-      id: evDef.id,
-      name: evDef.name,
-      text: evDef.text,
-      endsAt,
-      mods: deepClone(evDef.mods || [])
-    });
-
-    // flags
-    for (const f of (evDef.flags || [])){
-      addFlag(STATE, f.id, f.dur);
-    }
+    STATE.overheadTemp.instBonus.effOp = 2;
+    STATE.overheadTemp.instBonus.reput = 1;
   }
 
   /* =========================================================
@@ -963,7 +701,7 @@ height:100vh;
         <div class="card">
           <h2>Ayuda rápida</h2>
           <ul class="list">
-            <li>El año se cierra con <strong>“Cerrar año”</strong>.</li>
+            <li>El año se cierra con <strong>“Siguiente periodo”</strong>.</li>
             <li>Los <strong>equipos</strong> son permanentes.</li>
             <li>El <strong>personal</strong> y la <strong>IA</strong> tienen mantenimiento anual.</li>
             <li>Si no puedes pagar, hay <strong>recortes automáticos</strong>.</li>
@@ -984,46 +722,40 @@ height:100vh;
       <div class="topbar">
         <div class="brand">
           <div class="t">Introducción</div>
-          <div class="s">Pulsa <span class="kbd">ESPACIO</span> para continuar</div>
-        </div>
-        <div class="row">
-          <span class="pill">Año: <strong>${yearFromPeriod(STATE.period)}</strong></span>
-          <span class="pill">Periodo: <strong>${STATE.period}</strong></span>
+          <div class="s">Pulsa ESPACIO para continuar</div>
         </div>
       </div>
 
-      <div class="card" style="margin-top:12px">
-        <h2>Mensaje de Santiago</h2>
+      <div class="card">
+        <h2>Hola, soy Santiago.</h2>
         <p class="muted">
-          Hola, soy <strong>Santiago</strong>.<br>
-          ¡Así que vas a poner en marcha un laboratorio de investigación! Yo te puedo ayudar con lo que necesitas:
+          Así que vas a poner en marcha un laboratorio de investigación. Yo te puedo ayudar con lo que necesitas:
         </p>
         <ul class="list">
-          <li>👥 personal investigador, técnico y de gestión</li>
-          <li>🔬 equipamiento</li>
-          <li>🧪 materiales y consumibles (incluidos como coste operativo)</li>
-          <li>🤖 módulos de inteligencia artificial</li>
-          <li>🧠 decidir cómo empleas tu tiempo como IP</li>
+          <li>personal investigador, técnico y de gestión</li>
+          <li>equipamiento</li>
+          <li>materiales y otros consumibles</li>
+          <li>módulos de inteligencia artificial</li>
+          <li>decidir cómo emplear tu tiempo como IP</li>
         </ul>
-
+        <div class="sep"></div>
         <div class="notice">
-          <div class="muted">Pulsa <span class="kbd">ESPACIO</span> o el botón para empezar.</div>
-          <div class="btns">
-            <button class="primary" onclick="__LT.go('year')">Continuar</button>
-          </div>
+          <div>Presiona la barra espaciadora para continuar.</div>
         </div>
       </div>
     `;
   }
 
   function YearScreen(){
-    // Inicio de año: aplicar recortes automáticos si hace falta (solo una vez por visita)
-    // Para evitar que se ejecute cada render, lo hacemos al entrar desde otra pantalla.
     const d = computeDerived();
     const p = STATE.period;
     const y = yearFromPeriod(p);
 
     const totals = totalAnnualCost(STATE.staff, STATE.ai, p);
+    const ideas = Math.round(d.ideas);
+    const projectsWritten = computeProjectsWritten(ideas, d.prodSci, d.effOp);
+    const ratio = computeRatio(d.reput, d.capExp, d.prodSci, STATE.staff.BM, (1+(STATE.ai.PI||0)));
+    const projectsGranted = floor(projectsWritten * ratio / 100);
     const flagsTxt = (STATE.activeFlags.length ? STATE.activeFlags.map(f=>f.id.replace("flag_","")).join(", ") : "—");
     const eventsActiveTxt = (STATE.activeEvents.filter(e=>e.endsAt>=p).length ? STATE.activeEvents.filter(e=>e.endsAt>=p).map(e=>e.name).join(" · ") : "—");
 
@@ -1044,6 +776,13 @@ height:100vh;
 
       <div class="grid">
         <div class="card">
+          <div class="btns" style="margin-top:2px">
+            <button class="primary" onclick="__LT.go('santiago')">Hablar con Santiago (presupuesto)</button>
+            <button onclick="__LT.go('pitime')">Ajustar tiempo del IP</button>
+            <button onclick="__LT.go('overheads')">Decidir uso de overheads</button>
+            <button class="ghost" onclick="__LT.go('panel')">Panel del laboratorio</button>
+          </div>
+
           <h2>Estado del laboratorio</h2>
 
           <div class="two-col">
@@ -1078,23 +817,22 @@ height:100vh;
             </div>
 
             <div>
-              <h3>Variables (estimadas)</h3>
+              <h3>Variables clave (estimadas)</h3>
               <table class="table">
                 <tr><th>Variable</th><th>Valor</th></tr>
-                <tr><td>Ideas (año)</td><td class="mono">${Math.round(d.ideas)}</td></tr>
+                <tr><td>Ideas</td><td class="mono">${Math.round(d.ideas)}</td></tr>
                 <tr><td>Capacidad experimental</td><td class="mono">${Math.round(d.capExp)}</td></tr>
                 <tr><td>Productividad científica</td><td class="mono">${Math.round(d.prodSci)}</td></tr>
                 <tr><td>Eficiencia operativa</td><td class="mono">${Math.round(d.effOp)}</td></tr>
                 <tr><td>Innovación</td><td class="mono">${d.innovLevel===2?"Alta":d.innovLevel===1?"Media":"Baja"}</td></tr>
-                <tr><td>Reputación (estim.)</td><td class="mono">${Math.round(d.reput)}</td></tr>
               </table>
 
               <div class="sep"></div>
               <div class="notice">
                 <div><strong>Tiempo del IP:</strong> ${
-                  STATE.piTime==="read"?"📚 Leer/formarte":
-                  STATE.piTime==="manage"?"🧑‍🔬 Coordinar personal":
-                  "🌍 Colaboraciones"
+                  STATE.piTime==="read"?"Leer/formarte":
+                  STATE.piTime==="manage"?"Coordinar personal":
+                  "Colaboraciones"
                 }</div>
                 <div class="muted small">Bono proyectos: <span class="mono">+${bonusTimePI()}</span></div>
               </div>
@@ -1103,10 +841,10 @@ height:100vh;
                 <div><strong>Overheads (temporal):</strong> ${
                   STATE.overheadChoice
                     ? (
-                      STATE.overheadChoice==="extraStaff" ? "👥 Personal extra (virtual)" :
-                      STATE.overheadChoice==="extraAI" ? "🤖 IA extra (virtual)" :
-                      STATE.overheadChoice==="extraEquip" ? "🔬 Equipamiento (virtual)" :
-                      "🏛️ Institución gestiona"
+                      STATE.overheadChoice==="extraStaff" ? "Personal extra (virtual)" :
+                      STATE.overheadChoice==="extraAI" ? "IA extra (virtual)" :
+                      STATE.overheadChoice==="extraEquip" ? "Equipamiento (virtual)" :
+                      "Institución gestiona"
                     )
                     : "—"
                 }</div>
@@ -1133,21 +871,21 @@ height:100vh;
             <span class="pill">Total: <strong>${eur(totals.total)}</strong></span>
           </div>
 
-          <div class="btns">
-            <button class="primary" onclick="__LT.go('santiago')">Hablar con Santiago (presupuesto)</button>
-            <button onclick="__LT.go('pitime')">Ajustar tiempo del IP</button>
-            <button onclick="__LT.go('overheads')">Decidir uso de overheads</button>
-            <button class="ghost" onclick="__LT.go('panel')">Panel del laboratorio</button>
-            <button class="primary" onclick="__LT.closeYear()">Cerrar año y pasar al siguiente</button>
-          </div>
         </div>
 
         <div class="card">
+          <div class="btns" style="margin-top:2px">
+            <button class="primary" onclick="__LT.closeYear('santiago')">Siguiente periodo</button>
+            <button class="danger" onclick="__LT.resetSave()">Reiniciar juego</button>
+          </div>
           <h2>Historial</h2>
           <div class="notice">
             <div><strong>Artículos acumulados:</strong> <span class="mono">${STATE.articlesTotal}</span></div>
             <div><strong>Proyectos acumulados:</strong> <span class="mono">${STATE.projectsTotal}</span></div>
             <div><strong>ImpactoIndex:</strong> <span class="mono">${STATE.impactIndex}</span></div>
+            <div class="sep"></div>
+            <div><strong>Proyectos escritos (estim. este año):</strong> <span class="mono">${projectsWritten}</span></div>
+            <div><strong>Proyectos concedidos (estim. este año):</strong> <span class="mono">${projectsGranted}</span></div>
           </div>
 
           <div class="sep"></div>
@@ -1168,144 +906,109 @@ height:100vh;
     `;
   }
 
-  function PanelScreen(){
-    const p = STATE.period;
-    const d = computeDerived();
-    const ideas = Math.round(d.ideas);
-    const projectsWritten = computeProjectsWritten(ideas, d.prodSci, d.effOp);
-    const ratio = computeRatio(d.reput, d.capExp, d.prodSci, STATE.staff.BM, (1+(STATE.ai.PI||0)));
-    const projectsGranted = floor(projectsWritten * ratio / 100);
-    const articles = computeArticles(d.prodSci, d.effOp, d.capExp, d.reput);
-    const impactMean = computeImpactMean(d.reput, d.prodSci, d.innovLevel);
-
-    const teamSize = STATE.staff.IP + STATE.staff.S + STATE.staff.T + STATE.staff.R + STATE.staff.AM + STATE.staff.BM;
-    const budgetMean = computeBudgetMean(d.reput, teamSize, d.innovLevel, d.capExp, STATE.staff.BM);
-
-    return `
-      <div class="topbar">
-        <div class="brand">
-          <div class="t">Panel del laboratorio</div>
-          <div class="s">Variables internas (estimadas) · Año ${yearFromPeriod(p)}</div>
-        </div>
-        <div class="row">
-          <span class="pill">Periodo: <strong>${p}</strong></span>
-          <span class="pill">Presupuesto: <strong>${eur(STATE.budget)}</strong></span>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:12px">
-        <h2>Resumen técnico</h2>
-        <table class="table">
-          <tr><th>Bloque</th><th>Variable</th><th>Valor</th></tr>
-          <tr><td>Motor</td><td>Ideas</td><td class="mono">${ideas}</td></tr>
-          <tr><td>Motor</td><td>Capacidad experimental</td><td class="mono">${Math.round(d.capExp)}</td></tr>
-          <tr><td>Motor</td><td>Productividad científica</td><td class="mono">${Math.round(d.prodSci)}</td></tr>
-          <tr><td>Motor</td><td>Eficiencia operativa</td><td class="mono">${Math.round(d.effOp)}</td></tr>
-          <tr><td>Motor</td><td>Innovación</td><td class="mono">${d.innovLevel===2?"Alta":d.innovLevel===1?"Media":"Baja"}</td></tr>
-          <tr><td>Proyectos</td><td>Proyectos escritos (estim.)</td><td class="mono">${projectsWritten}</td></tr>
-          <tr><td>Proyectos</td><td>Ratio de éxito (estim.)</td><td class="mono">${ratio}%</td></tr>
-          <tr><td>Proyectos</td><td>Proyectos concedidos (estim.)</td><td class="mono">${projectsGranted}</td></tr>
-          <tr><td>Publicaciones</td><td>Artículos este año (estim.)</td><td class="mono">${articles}</td></tr>
-          <tr><td>Publicaciones</td><td>Impacto medio (0–10)</td><td class="mono">${impactMean}</td></tr>
-          <tr><td>Financiación</td><td>Presupuesto medio por proyecto</td><td class="mono">${eur(budgetMean)}</td></tr>
-        </table>
-
-        <div class="btns">
-          <button onclick="__LT.go('year')">Volver</button>
-        </div>
-      </div>
-    `;
-  }
-
   function SantiagoScreen(){
     const p = STATE.period;
+
+    function rowStaff(key, label){
+      const n = STATE.staff[key];
+      const cost = COSTS.staff[key];
+      const disableMinus = (key==="IP");
+      return `
+        <div class="counter">
+          <div>
+            <div class="name">${label}</div>
+            <div class="meta">${eur(cost)}/año</div>
+          </div>
+          <div class="actions">
+            <button class="danger" ${disableMinus?"disabled":""} onclick="__LT.decStaff('${key}')">−</button>
+            <span class="mono" style="min-width:28px;text-align:center">${n}</span>
+            <button class="primary" onclick="__LT.incStaff('${key}')">+</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function rowAI(key, label, cost){
+      const disabled = !AI_AVAILABLE[key](p);
+      const n = disabled ? 0 : STATE.ai[key];
+      return `
+        <div class="counter">
+          <div>
+            <div class="name">${label} ${disabled?`<span class="tag warn">bloqueado</span>`:""}</div>
+            <div class="meta">${eur(cost)}/año</div>
+          </div>
+          <div class="actions">
+            <button class="danger" ${disabled?"disabled":""} onclick="__LT.decAI('${key}')">−</button>
+            <span class="mono" style="min-width:28px;text-align:center">${n}</span>
+            <button class="primary" ${disabled?"disabled":""} onclick="__LT.incAI('${key}')">+</button>
+          </div>
+        </div>
+      `;
+    }
+
     const totals = totalAnnualCost(STATE.staff, STATE.ai, p);
 
     return `
       <div class="topbar">
         <div class="brand">
-          <div class="t">Santiago · Gestión de presupuesto</div>
-          <div class="s">Compra/recorta personal, IA y equipamiento</div>
+          <div class="t">Santiago · Presupuesto</div>
+          <div class="s">Ajusta recursos del periodo (recalcula disponible con costes operativos y overheads)</div>
         </div>
         <div class="row">
-          <span class="pill">Presupuesto: <strong>${eur(STATE.budget)}</strong></span>
-          <span class="pill">Total anual actual: <strong>${eur(totals.total)}</strong></span>
+          <span class="pill">Presupuesto disponible: <strong>${eur(getBudgetAvailable())}</strong></span>
+          <span class="pill">Coste anual total: <strong>${eur(totals.total)}</strong></span>
         </div>
       </div>
 
       <div class="grid">
         <div class="card">
-          <h2>👥 Personal</h2>
-          ${staffCounter("S","Estudiante predoctoral",COSTS.staff.S)}
-          ${staffCounter("T","Técnico",COSTS.staff.T)}
-          ${staffCounter("R","Postdoc / Researcher",COSTS.staff.R)}
-          ${staffCounter("AM","Admin Manager",COSTS.staff.AM)}
-          ${staffCounter("BM","Business Manager",COSTS.staff.BM)}
-          <div class="notice">
-            <div class="muted small">IP es fijo (=1) pero su coste anual se paga con proyectos.</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <h2>🤖 IA</h2>
-          ${aiCounter("GPT","móduloGPT",COSTS.ai.GPT,true)}
-          ${aiCounter("AGI","móduloAGI",COSTS.ai.AGI,AI_AVAILABLE.AGI(p))}
-          ${aiCounter("PI","móduloPI",COSTS.ai.PI,AI_AVAILABLE.PI(p))}
-          <div class="notice">
-            <div><strong>móduloPI</strong> equivale a <strong>otro PI</strong> (ideas y éxito).</div>
-          </div>
+          <h2>Personal</h2>
+          ${rowStaff("IP","IP (fijo)")}
+          ${rowStaff("S","S (Predoc)")}
+          ${rowStaff("T","T (Técnico)")}
+          ${rowStaff("R","R (Postdoc)")}
+          ${rowStaff("AM","AM (Admin Manager)")}
+          ${rowStaff("BM","BM (Business Manager)")}
 
           <div class="sep"></div>
-
-          <h2>🔬 Equipamiento</h2>
           <div class="notice">
-            <div><strong>Equipo medio</strong> (${eur(COSTS.equipment.MED)}): Capacidad +2 · Productividad +1</div>
-            <div><strong>Equipo alto</strong> (${eur(COSTS.equipment.HIGH)}): Capacidad +7 · Productividad +4</div>
+            <div><strong>Nota:</strong> el personal y la IA tienen mantenimiento anual (incluye operativos y overheads).</div>
+            <div class="muted small">Si no cabe en el presupuesto bruto, habrá recortes automáticos al entrar al año.</div>
           </div>
-          <div class="btns">
-            <button onclick="__LT.buyEquip('MED')">Comprar equipo medio</button>
-            <button onclick="__LT.buyEquip('HIGH')">Comprar equipo alto</button>
-          </div>
-
-          <div class="sep"></div>
 
           <div class="btns">
             <button onclick="__LT.go('year')">Volver</button>
           </div>
         </div>
-      </div>
-    `;
-  }
 
-  function staffCounter(key, label, cost){
-    const n = STATE.staff[key];
-    return `
-      <div class="counter">
-        <div>
-          <div class="name">${key} · ${label}</div>
-          <div class="meta">${eur(cost)} / año</div>
-        </div>
-        <div class="actions">
-          <button class="danger" onclick="__LT.decStaff('${key}')">−</button>
-          <span class="mono" style="min-width:28px;text-align:center">${n}</span>
-          <button class="primary" onclick="__LT.incStaff('${key}')">+</button>
-        </div>
-      </div>
-    `;
-  }
+        <div class="card">
+          <h2>Módulos de AI</h2>
+          ${rowAI("GPT","móduloGPT",1000)}
+          ${rowAI("AGI","móduloAGI",1000)}
+          ${rowAI("PI","móduloPI",10000)}
 
-  function aiCounter(key, label, cost, available){
-    const n = available ? STATE.ai[key] : 0;
-    return `
-      <div class="counter">
-        <div>
-          <div class="name">${label} ${available ? "" : `<span class="tag warn">bloqueado</span>`}</div>
-          <div class="meta">${eur(cost)} / año</div>
-        </div>
-        <div class="actions">
-          <button class="danger" ${available ? "" : "disabled"} onclick="__LT.decAI('${key}')">−</button>
-          <span class="mono" style="min-width:28px;text-align:center">${n}</span>
-          <button class="primary" ${available ? "" : "disabled"} onclick="__LT.incAI('${key}')">+</button>
+          <div class="sep"></div>
+          <h3>Equipamiento (pago único)</h3>
+          <div class="btns">
+            <button class="primary" onclick="__LT.buyEquip('MED')">Comprar equipo medio (${eur(COSTS.equipment.MED)})</button>
+            <button class="primary" onclick="__LT.buyEquip('HIGH')">Comprar equipo alto (${eur(COSTS.equipment.HIGH)})</button>
+          </div>
+
+          <div class="notice">
+            <div class="muted small">
+              El equipamiento se paga una sola vez y queda permanente. Los costes de mantenimiento se simplifican en “operativos”.
+            </div>
+          </div>
+
+          <div class="sep"></div>
+          <h3>Resumen de costes</h3>
+          <div class="row">
+            <span class="pill">Personal: <strong>${eur(totals.cP)}</strong></span>
+            <span class="pill">IA: <strong>${eur(totals.cAI)}</strong></span>
+            <span class="pill">Operativos: <strong>${eur(totals.ops)}</strong></span>
+            <span class="pill">Overheads: <strong>${eur(totals.oh)}</strong></span>
+            <span class="pill">Total: <strong>${eur(totals.total)}</strong></span>
+          </div>
         </div>
       </div>
     `;
@@ -1316,27 +1019,24 @@ height:100vh;
       <div class="topbar">
         <div class="brand">
           <div class="t">Tiempo del IP</div>
-          <div class="s">Elige tu prioridad del año (afecta a proyectos)</div>
-        </div>
-        <div class="row">
-          <span class="pill">Actual: <strong>${
-            STATE.piTime==="read"?"Leer/formarte":
-            STATE.piTime==="manage"?"Coordinar personal":
-            "Colaboraciones"
-          }</strong></span>
+          <div class="s">Decisión estratégica (efecto temporal este año)</div>
         </div>
       </div>
 
       <div class="card" style="margin-top:12px">
-        <h2>¿En qué te centras este año?</h2>
+        <h2>¿En qué priorizas tu tiempo?</h2>
         <div class="btns">
-          <button class="${STATE.piTime==="read"?"primary":""}" onclick="__LT.setPITime('read')">📚 Leer y formarte ( +0 )</button>
-          <button class="${STATE.piTime==="manage"?"primary":""}" onclick="__LT.setPITime('manage')">🧑‍🔬 Coordinar personal ( +1 )</button>
-          <button class="${STATE.piTime==="collab"?"primary":""}" onclick="__LT.setPITime('collab')">🌍 Colaboraciones ( +2 )</button>
+          <button class="primary" onclick="__LT.setPITime('read')">Leer y formarte</button>
+          <button class="primary" onclick="__LT.setPITime('manage')">Coordinar personal</button>
+          <button class="primary" onclick="__LT.setPITime('collab')">Colaboraciones</button>
         </div>
+
         <div class="notice">
-          <div class="muted">Bono = influencia en el número de proyectos escritos (y algo en éxito).</div>
+          <div class="muted small">
+            Efecto en proyectos escritos: Leer/formarte (+0), Coordinar (+1), Colaboraciones (+2).
+          </div>
         </div>
+
         <div class="btns">
           <button onclick="__LT.go('year')">Volver</button>
         </div>
@@ -1365,10 +1065,10 @@ height:100vh;
       <div class="card" style="margin-top:12px">
         <h2>Elige una política de overheads</h2>
         <div class="btns">
-          <button onclick="__LT.overExtraStaff()">👥 Contratar personal extra (virtual)</button>
-          <button onclick="__LT.overExtraAI()">🤖 IA extra (virtual)</button>
-          <button onclick="__LT.overExtraEquip()">🔬 Equipamiento (virtual)</button>
-          <button onclick="__LT.overInstitution()">🏛️ Mi institución gestiona (EficOp +2, Reput +1)</button>
+          <button onclick="__LT.overExtraStaff()">Contratar personal extra (virtual)</button>
+          <button onclick="__LT.overExtraAI()">IA extra (virtual)</button>
+          <button onclick="__LT.overExtraEquip()">Equipamiento (virtual)</button>
+          <button onclick="__LT.overInstitution()">Mi institución gestiona (EficOp +2, Reput +1)</button>
         </div>
 
         <div class="sep"></div>
@@ -1376,9 +1076,9 @@ height:100vh;
         <div class="notice">
           <div><strong>Opción actual:</strong> ${
             STATE.overheadChoice
-              ? (STATE.overheadChoice==="extraStaff"?"👥 Personal extra (virtual)":
-                 STATE.overheadChoice==="extraAI"?"🤖 IA extra (virtual)":
-                 STATE.overheadChoice==="extraEquip"?"🔬 Equipamiento (virtual)":"🏛️ Institución gestiona")
+              ? (STATE.overheadChoice==="extraStaff"?"Personal extra (virtual)":
+                 STATE.overheadChoice==="extraAI"?"IA extra (virtual)":
+                 STATE.overheadChoice==="extraEquip"?"Equipamiento (virtual)":"Institución gestiona")
               : "—"
           }</div>
           <div class="muted small">Se reinicia cada año al cerrar periodo.</div>
@@ -1441,7 +1141,6 @@ height:100vh;
     const ohEur = overheadsEuro(totals.cP, totals.cAI);
     const bolsaIA = Math.floor(0.5 * ohEur);
 
-    // disponibilidad
     const avail = {
       GPT: true,
       AGI: AI_AVAILABLE.AGI(p),
@@ -1492,6 +1191,54 @@ height:100vh;
         <div class="btns">
           <button class="primary" onclick="__LT.confirmVirtualAI()">Confirmar</button>
           <button onclick="__LT.go('overheads')">Volver</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function PanelScreen(){
+    const p = STATE.period;
+    const d = computeDerived();
+    const ideas = Math.round(d.ideas);
+    const projectsWritten = computeProjectsWritten(ideas, d.prodSci, d.effOp);
+    const ratio = computeRatio(d.reput, d.capExp, d.prodSci, STATE.staff.BM, (1+(STATE.ai.PI||0)));
+    const projectsGranted = floor(projectsWritten * ratio / 100);
+    const articles = computeArticles(d.prodSci, d.effOp, d.capExp, d.reput);
+    const impactMean = computeImpactMean(d.reput, d.prodSci, d.innovLevel);
+
+    const teamSize = STATE.staff.IP + STATE.staff.S + STATE.staff.T + STATE.staff.R + STATE.staff.AM + STATE.staff.BM;
+    const budgetMean = computeBudgetMean(d.reput, teamSize, d.innovLevel, d.capExp, STATE.staff.BM);
+
+    return `
+      <div class="topbar">
+        <div class="brand">
+          <div class="t">Panel del laboratorio</div>
+          <div class="s">Variables internas (estimadas) · Año ${yearFromPeriod(p)}</div>
+        </div>
+        <div class="row">
+          <span class="pill">Periodo: <strong>${p}</strong></span>
+          <span class="pill">Presupuesto: <strong>${eur(STATE.budget)}</strong></span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <table class="table">
+          <tr><th>Variable</th><th>Estimación</th></tr>
+          <tr><td>Ideas</td><td class="mono">${ideas}</td></tr>
+          <tr><td>Proyectos escritos</td><td class="mono">${projectsWritten}</td></tr>
+          <tr><td>Ratio éxito</td><td class="mono">${ratio}%</td></tr>
+          <tr><td>Proyectos concedidos</td><td class="mono">${projectsGranted}</td></tr>
+          <tr><td>Artículos (este año)</td><td class="mono">${articles}</td></tr>
+          <tr><td>Impacto medio</td><td class="mono">${impactMean}/10</td></tr>
+          <tr><td>Capacidad exp.</td><td class="mono">${Math.round(d.capExp)}</td></tr>
+          <tr><td>Productividad</td><td class="mono">${Math.round(d.prodSci)}</td></tr>
+          <tr><td>Eficiencia</td><td class="mono">${Math.round(d.effOp)}</td></tr>
+          <tr><td>Innovación</td><td class="mono">${d.innovLevel===2?"Alta":d.innovLevel===1?"Media":"Baja"}</td></tr>
+          <tr><td>Presupuesto medio/proyecto</td><td class="mono">${eur(budgetMean)}</td></tr>
+        </table>
+
+        <div class="btns">
+          <button onclick="__LT.go('year')">Volver</button>
         </div>
       </div>
     `;
@@ -1578,17 +1325,15 @@ height:100vh;
   }
 
   /* =========================================================
-     Acciones (API global para botones)
+     Acciones
      ========================================================= */
   window.__LT = {
     startNew(){
       STATE = newGame();
       save();
       setScreen("intro");
-      // Al empezar, aplicamos costes y recortes del primer año en el primer acceso a "year"
     },
     continueGame(){
-      // si estaba en title, lleva al año o intro según estado
       if (!STATE.screen || STATE.screen === "title") setScreen("year");
       else render();
     },
@@ -1607,51 +1352,51 @@ height:100vh;
       toast("Tiempo del IP actualizado.");
     },
 
-    // Personal / IA / Equip
     incStaff(k){
-      // Contratar cuesta inmediatamente el coste anual completo (simplificación)
-      const cost = COSTS.staff[k];
-      if (STATE.budget < cost) return toast("Presupuesto insuficiente para contratar.");
+      const gross = getBudgetGross();
+      const staff2 = deepClone(STATE.staff);
+      staff2[k] += 1;
+      if (!canAffordWith(staff2, STATE.ai, gross, STATE.period)) return toast("Presupuesto insuficiente para contratar (incluye operativos y overheads).");
       STATE.staff[k] += 1;
-      STATE.budget -= cost;
+      recalcBudget();
       save(); render();
     },
     decStaff(k){
       if (STATE.staff[k] <= 0) return;
-      // Despedir recupera el coste anual (simplificación)
-      const refund = COSTS.staff[k];
       STATE.staff[k] -= 1;
-      STATE.budget += refund;
+      recalcBudget();
       save(); render();
     },
     incAI(k){
       const p = STATE.period;
       if (!AI_AVAILABLE[k](p)) return;
-      const cost = COSTS.ai[k];
-      if (STATE.budget < cost) return toast("Presupuesto insuficiente para ese módulo.");
+      const gross = getBudgetGross();
+      const ai2 = deepClone(STATE.ai);
+      ai2[k] += 1;
+      if (!canAffordWith(STATE.staff, ai2, gross, p)) return toast("Presupuesto insuficiente para ese módulo (incluye operativos y overheads).");
       STATE.ai[k] += 1;
-      STATE.budget -= cost;
+      recalcBudget();
       save(); render();
     },
     decAI(k){
       const p = STATE.period;
       if (!AI_AVAILABLE[k](p)) return;
       if (STATE.ai[k] <= 0) return;
-      const refund = COSTS.ai[k];
       STATE.ai[k] -= 1;
-      STATE.budget += refund;
+      recalcBudget();
       save(); render();
     },
     buyEquip(type){
       const cost = COSTS.equipment[type];
-      if (STATE.budget < cost) return toast("Presupuesto insuficiente para ese equipo.");
+      const avail = getBudgetAvailable();
+      if (avail < cost) return toast("Presupuesto insuficiente para ese equipo.");
       STATE.equip[type] += 1;
-      STATE.budget -= cost;
+      STATE.budgetGross = getBudgetGross() - cost;
       STATE.equipHistory.push({ type, period: STATE.period });
+      recalcBudget();
       save(); render();
     },
 
-    // Overheads
     overExtraStaff(){
       resetOverheadTemp();
       STATE.overheadChoice = "extraStaff";
@@ -1713,24 +1458,18 @@ height:100vh;
 
     overInstitution(){
       resetOverheadTemp();
-      applyOverheadInstitution(); // EficOp +2, Reput +1 (temporal)
+      applyOverheadInstitution();
       save();
       toast("La institución gestiona overheads (solo este año).");
       render();
     },
 
-    // Cierre de año
-    closeYear(){
-      // 1) Antes de cálculos: sortear eventos nuevos del periodo actual
+    closeYear(gotoScreen){
       pruneExpiredFlags(STATE);
-
-      // Limpia eventos expirados (mantiene histórico para UI si quieres)
       STATE.activeEvents = STATE.activeEvents.filter(e => e.endsAt >= STATE.period);
 
-      // Añade eventos del año (con encadenados)
       maybeAddEventsThisPeriod();
 
-      // 2) Recalcular derivados ya con overheads + eventos activos
       const d = computeDerived();
       const ideas = Math.round(d.ideas);
       const projectsWritten = computeProjectsWritten(ideas, d.prodSci, d.effOp);
@@ -1740,7 +1479,6 @@ height:100vh;
       const articles = computeArticles(d.prodSci, d.effOp, d.capExp, d.reput);
       const impactMean = computeImpactMean(d.reput, d.prodSci, d.innovLevel);
 
-      // ImpactIndex mods por eventos (delta directa)
       let impactIndex = STATE.impactIndex;
       const mods = activeEventMods();
       for (const m of mods){
@@ -1748,23 +1486,17 @@ height:100vh;
       }
       impactIndex = updateImpactIndex(Math.max(1, impactIndex), articles, impactMean);
 
-      // Acumulados
       STATE.articlesTotal += articles;
       STATE.projectsTotal += projectsGranted;
       STATE.impactIndex = impactIndex;
 
-      // Reputación real del final de año (penaliza si hubo recortes este o el anterior)
-      // Para simplificar “reciente”: usamos si hubo recortes al inicio de ESTE año (STATE.last.layoffs)
       const reput = computeReputation(STATE.articlesTotal, STATE.projectsTotal, STATE.last.layoffs);
 
-      // Presupuesto medio
       const teamSize = STATE.staff.IP + STATE.staff.S + STATE.staff.T + STATE.staff.R + STATE.staff.AM + STATE.staff.BM;
       const budgetMean = computeBudgetMean(reput, teamSize, d.innovLevel, d.capExp, STATE.staff.BM);
 
-      // Presupuesto siguiente año
       let nextBudget = projectsGranted * budgetMean;
 
-      // Eventos que multiplican presupuesto siguiente (sin tocar costes)
       for (const ev of STATE.activeEvents.filter(e=>e.endsAt>=STATE.period)){
         for (const m of ev.mods){
           if (m.kind === "mul_next_budget"){
@@ -1772,16 +1504,14 @@ height:100vh;
           }
         }
       }
-      // Multiplicador diferido (por si en el futuro metes más reglas)
       nextBudget *= (STATE.nextBudgetMultiplier || 1.0);
       nextBudget = Math.round(nextBudget);
 
-      // Guardar “last”
       STATE.last = {
-        layoffs: STATE.last.layoffs, // se actualizará al inicio del siguiente año
+        layoffs: STATE.last.layoffs,
         layoffsNote: STATE.last.layoffsNote || "",
         events: STATE.activeEvents
-          .filter(e=>e.endsAt>=STATE.period) // eventos activos/ocurridos este año
+          .filter(e=>e.endsAt>=STATE.period)
           .map(e=>{
             const def = EVENTS.find(x=>x.id===e.id);
             const dur = def?.duration ?? 0;
@@ -1806,85 +1536,55 @@ height:100vh;
       // 3) Avanzar periodo
       STATE.period += 1;
 
-      // 4) Aplicar presupuesto del siguiente año
-      STATE.budget = nextBudget;
+      // 4) Aplicar presupuesto del siguiente año (bruto)
+      STATE.budgetGross = nextBudget;
 
       // 5) Reset temporales (overheads se borran) y mantener piTime
       resetOverheadTemp();
 
-      // 6) Inicio del nuevo año: pagar costes automáticos y recortes si hace falta
-      //    En este juego, los costes se “descuentan” de presupuesto al iniciar el año.
-      const t = totalAnnualCost(STATE.staff, STATE.ai, STATE.period);
-      if (STATE.budget >= t.total){
-        STATE.budget -= t.total;
-        STATE.last.layoffs = false;
-        STATE.last.layoffsNote = "";
-      } else {
-        // No alcanza: intentamos recortar para poder pagar
-        // Primero, NO descontamos nada aún; recortamos y luego descontamos el total resultante.
-        const res = enforceAffordability();
-        const t2 = totalAnnualCost(STATE.staff, STATE.ai, STATE.period);
-        if (STATE.budget >= t2.total){
-          STATE.budget -= t2.total;
-        } else {
-          // Si no se logra, presupuesto ya habrá sido forzado a 0
-        }
-        STATE.last.layoffs = res.layoffs;
-        STATE.last.layoffsNote = res.note;
-      }
+      // 6) Inicio del nuevo año: recortes automáticos si hace falta
+      const res2 = (!canAffordCurrentSetup() ? enforceAffordability() : {layoffs:false, note:""});
+      STATE.last.layoffs = res2.layoffs;
+      STATE.last.layoffsNote = res2.note;
+
+      // 7) Recalcula disponible
+      recalcBudget();
 
       save();
-      setScreen("results");
+      setScreen(gotoScreen || "results");
     }
   };
 
-  /* =========================================================
-     Entrada al año: descontar costes automáticos una sola vez
-     - Se aplica cuando entras por primera vez a YearScreen desde intro/title/results.
-     ========================================================= */
   let _lastScreen = STATE.screen;
 
   function ensureYearStart(){
-    // Si entramos a "year" y venimos de otra pantalla, aplicamos costes automáticos SOLO una vez.
     if (STATE.screen !== "year") return;
 
     const cameFromOther = _lastScreen !== "year";
     if (!cameFromOther) return;
 
-    // Al inicio del primer año (periodo 0), descontamos costes automáticos también
-    const t = totalAnnualCost(STATE.staff, STATE.ai, STATE.period);
+    getBudgetGross();
 
-    // Si ya se descontó (por ejemplo tras closeYear), no repetimos: lo detectamos con una marca simple
-    // (Aquí usamos una heurística: si acabamos de crear partida, last.nextBudget=0 y screen cambia)
-    // Para evitar líos: solo aplicamos automáticamente si estamos en periodo 0 y venimos de intro, o si venimos de title/intro.
-    // En otros casos, closeYear ya lo hizo.
-    const shouldAutoPay = (STATE.period === 0 && (_lastScreen === "intro" || _lastScreen === "title"));
-
-    if (shouldAutoPay){
-      if (STATE.budget >= t.total){
-        STATE.budget -= t.total;
-        STATE.last.layoffs = false;
-        STATE.last.layoffsNote = "";
-      } else {
-        const res = enforceAffordability();
-        const t2 = totalAnnualCost(STATE.staff, STATE.ai, STATE.period);
-        if (STATE.budget >= t2.total) STATE.budget -= t2.total;
-        STATE.last.layoffs = res.layoffs;
-        STATE.last.layoffsNote = res.note;
-      }
-      save();
-    }
-
-    // Limpia expiradas al entrar
     pruneExpiredFlags(STATE);
     STATE.activeEvents = STATE.activeEvents.filter(e => e.endsAt >= STATE.period);
+
+    if (!canAffordCurrentSetup()){
+      const res = enforceAffordability();
+      STATE.last.layoffs = res.layoffs;
+      STATE.last.layoffsNote = res.note;
+    } else {
+      STATE.last.layoffs = false;
+      STATE.last.layoffsNote = "";
+    }
+
+    recalcBudget();
+    save();
   }
 
-  /* =========================================================
-     Render
-     ========================================================= */
   function render(){
     ensureYearStart();
+    // Recalcula presupuesto disponible en cualquier pantalla
+    recalcBudget();
 
     let html = "";
     if (STATE.screen === "title") html = TitleScreen();
@@ -1904,7 +1604,6 @@ height:100vh;
     _lastScreen = STATE.screen;
   }
 
-  // Teclado: espacio para avanzar en intro
   window.addEventListener("keydown", (e) => {
     if (STATE.screen === "intro" && (e.code === "Space" || e.key === " ")){
       e.preventDefault();
@@ -1912,12 +1611,10 @@ height:100vh;
     }
   });
 
-  // Arranque: si no hay screen, vuelve a title
   if (!STATE.screen) STATE.screen = "title";
   render();
   save();
 })();
 </script>
-
 </body>
 </html>
