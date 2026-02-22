@@ -1347,8 +1347,8 @@ height:100vh;
   function OverheadsScreen(){
     const p = STATE.period;
     const totals = totalAnnualCost(STATE.staff, STATE.ai, p);
-    const oh€ = overheadsEuro(totals.cP, totals.cAI);
-    const bolsaIA = Math.floor(0.5 * oh€);
+    const ohEur = overheadsEuro(totals.cP, totals.cAI);
+    const bolsaIA = Math.floor(0.5 * ohEur);
 
     return `
       <div class="topbar">
@@ -1357,7 +1357,7 @@ height:100vh;
           <div class="s">No es dinero directo: aplica efectos SOLO este año</div>
         </div>
         <div class="row">
-          <span class="pill">Overheads€ (referencia): <strong>${eur(oh€)}</strong></span>
+          <span class="pill">Overheads€ (referencia): <strong>${eur(ohEur)}</strong></span>
           <span class="pill">Bolsa IA (50%): <strong>${eur(bolsaIA)}</strong></span>
         </div>
       </div>
@@ -1438,8 +1438,8 @@ height:100vh;
   function OverExtraAIScreen(){
     const p = STATE.period;
     const totals = totalAnnualCost(STATE.staff, STATE.ai, p);
-    const oh€ = overheadsEuro(totals.cP, totals.cAI);
-    const bolsaIA = Math.floor(0.5 * oh€);
+    const ohEur = overheadsEuro(totals.cP, totals.cAI);
+    const bolsaIA = Math.floor(0.5 * ohEur);
 
     // disponibilidad
     const avail = {
