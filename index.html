@@ -1796,12 +1796,14 @@ height:100vh;
   STATE.last = {
   layoffs: STATE.last.layoffs, // se actualizará al inicio del siguiente año
   layoffsNote: STATE.last.layoffsNote || "",
-  events: STATE.activeEvents.filter(e=>e.endsAt>=STATE.period) // eventos activos/ocurridos este año.map(e=>{
-  const def = EVENTS.find(x=>x.id===e.id);
-  const dur = def?.duration?? 0;
-  const durationTxt = dur===0?"solo este año":dur===1?"2 años":"3 años";
-  return { name:e.name, text:e.text, durationTxt };
-  }),
+  events: STATE.activeEvents
+        .filter(e => e.endsAt >= STATE.period) // eventos activos/ocurridos este año
+        .map(e => {
+          const def = EVENTS.find(x => x.id === e.id);
+          const dur = (def?.duration ?? 0);
+          const durationTxt = dur === 0 ? "solo este año" : (dur === 1 ? "2 años" : "3 años");
+          return { name: e.name, text: e.text, durationTxt };
+        }),
   ideas,
   capExp: Math.round(d.capExp),
   prodSci: Math.round(d.prodSci),
@@ -1912,4 +1914,3 @@ height:100vh;
 
 </body>
 </html>
-
