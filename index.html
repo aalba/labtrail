@@ -433,7 +433,7 @@ height:100vh;
   screen: "title",
   period: 0,
   budget: 200000,  // presupuesto inicial (ajustable)
-  budgetGross: 200000,  // presupuesto bruto del periodo (ingreso)
+  budgetGross: 400000,  // presupuesto bruto del periodo (ingreso)
   nextBudgetMultiplier: 1.0,  // por eventos tipo retraso financiación
 
   staff: { IP:1, S:0, T:0, R:0, AM:0, BM:0 },
@@ -690,13 +690,13 @@ height:100vh;
   const innov = innovationLevel();
 
   // Capacidad experimental (base 1)
-  let capExp = Math.max(1, 1 + 2*eqMed + 7*eqHigh + 5*modPI + 1*T + 0.5*S + 0.5*R);
+  let capExp = Math.max(1, 1 + 2*eqMed + 7*eqHigh + 3*modPI + 0.8*T + 0.3*S + 0.4*R);
 
   // Productividad científica (base 1)
-  let prodSci = Math.max(1, 1 + 2*R + 1*(modGPT+modAGI) + 0.5*eqMed + 1*eqHigh + 0.5*S);
+  let prodSci = Math.max(1, 1 + 1.5*R + 0.8*(modGPT+modAGI) + 0.4*eqMed + 1.2*eqHigh + 0.3*S);
 
   // Eficiencia operativa (base 1)
-  let effOp = Math.max(1, 1 + 2*AM + 1*(modGPT+modAGI));
+  let effOp = Math.max(1, 1 + 1.2*AM + 0.6*(modGPT+modAGI));
 
   // Reputación (base, se recalcula al cierre usando acumulados; aquí la aproximamos para “estimados”)
   // La reputación real se recalcula en closeYear(), pero necesitamos estimados intermedios.
@@ -747,14 +747,15 @@ height:100vh;
   }
 
   function computeRatio(reput, capExp, prodSci, BM, totalPI){
-  // Ratio de éxito (5..70) con BM importante + PI explícito
-  let ratio = 10
-  + 2*Math.sqrt(reput)
-  + 1.2*Math.sqrt(capExp)
-  + 1.2*Math.sqrt(prodSci)
-  + 6*BM
-  + bonusTimePI()
-  + 3*totalPI;
+  // Ratio de éxito (en la vida real suele moverse ~10–40%).
+  // BM influye mucho; PI (real + por móduloPI) ayuda, pero sin disparar el ratio.
+  let ratio = 8
+    + 1.8*Math.sqrt(reput)
+    + 1.0*Math.sqrt(capExp)
+    + 1.1*Math.sqrt(prodSci)
+    + 4*BM
+    + 1.5*totalPI
+    + bonusTimePI();
 
   // Mods por eventos activos (delta ratio)
   const mods = activeEventMods();
@@ -762,7 +763,7 @@ height:100vh;
   if (m.kind === "delta" && m.var === "ratio") ratio += m.value;
   }
 
-  ratio = clamp(Math.round(ratio), 5, 70);
+  ratio = clamp(Math.round(ratio), 5, 45);
   return ratio;
   }
 
