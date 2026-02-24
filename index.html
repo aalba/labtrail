@@ -559,7 +559,14 @@ height:100vh;
   const ops = opsCost(cP);
   const oh = overheadsEuro(cP, cAI);
   return { cP, cAI, ops, oh, total: cP + cAI + ops + oh };
+  
+  // Comprueba si un presupuesto bruto (gross) cubre los costes anuales automáticos
+  function canAffordWith(staff, ai, gross, period){
+    const t = totalAnnualCost(staff, ai, period);
+    return (gross || 0) >= t.total;
   }
+
+}
 
   /* =========================================================
   Presupuesto disponible (recalculado en vivo)
