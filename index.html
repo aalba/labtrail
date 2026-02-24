@@ -832,7 +832,96 @@ height:100vh;
   return Math.max(1, prevIndex + add);
   }
 
+  
   /* =========================================================
+     Vista previa del siguiente periodo (en tiempo real)
+     - Calcula proyectos concedidos estimados del periodo actual
+     - Calcula presupuesto bruto del siguiente periodo
+     - Simula recortes automáticos al inicio del siguiente periodo
+     - Devuelve presupuesto disponible estimado del siguiente periodo
+     ========================================================= */
+  function previewNextPeriod(){
+    const p = STATE.period;
+
+    const d = computeDerived();
+    const ideas = Math.round(d.ideas);
+    const projectsWritten = computeProjectsWritten(ideas, d.prodSci, d.effOp);
+    const ratio = computeRatio(d.reput, d.capExp, d.prodSci, STATE.staff.BM, (1 + (STATE.ai.PI||0)));
+    const projectsGranted = floor(projectsWritten * ratio / 100);
+
+    // Artículos/impacto (para estimar reputación del cierre de año)
+    const articles = computeArticles(d.prodSci, d.effOp, d.capExp, d.reput);
+    const newArticlesTotal = (STATE.articlesTotal||0) + articles;
+    const newProjectsTotal = (STATE.projectsTotal||0) + projectsGranted;
+
+    const reputNext = computeReputation(newArticlesTotal, newProjectsTotal, !!(STATE.last && STATE.last.layoffs));
+
+    const teamSize =
+      (STATE.staff.IP||0) + (STATE.staff.S||0) + (STATE.staff.T||0) +
+      (STATE.staff.R||0) + (STATE.staff.AM||0) + (STATE.staff.BM||0);
+
+    const budgetMean = computeBudgetMean(reputNext, teamSize, d.innovLevel, d.capExp, STATE.staff.BM);
+
+    let nextBudgetGross = Math.round(projectsGranted * budgetMean);
+
+    // Eventos que afectan al presupuesto del año siguiente
+    for (const ev of (STATE.activeEvents||[]).filter(e => e.endsAt >= p)){
+      for (const m of (ev.mods||[])){
+        if (m.kind === "mul_next_budget") nextBudgetGross *= m.value;
+      }
+    }
+    nextBudgetGross *= (STATE.nextBudgetMultiplier || 1.0);
+    nextBudgetGross = Math.round(nextBudgetGross);
+
+    // Simular recortes automáticos del siguiente periodo
+    const sim = simulateAffordability(nextBudgetGross, p + 1);
+
+    return {
+      projectsWritten,
+      projectsGranted,
+      ratio,
+      budgetMean,
+      nextBudgetGross,
+      nextBudgetAvailable: sim.available,
+      nextStaff: sim.staff,
+      nextAI: sim.ai,
+      layoffs: sim.layoffs
+    };
+  }
+
+  function simulateAffordability(gross, period){
+    // Copias (sin mutar estado)
+    const staff = JSON.parse(JSON.stringify(STATE.staff));
+    const ai = JSON.parse(JSON.stringify(STATE.ai));
+
+    const can = () => canAffordWith(staff, ai, gross, period);
+
+    let layoffs = false;
+
+    if (!can()){
+      const aiOrder = ["GPT","AGI","PI"];
+      for (const k of aiOrder){
+        while ((ai[k]||0) > 0 && !can()){
+          ai[k] -= 1;
+          layoffs = true;
+        }
+      }
+      const staffOrder = ["AM","BM","S","T","R"];
+      for (const k of staffOrder){
+        while ((staff[k]||0) > 0 && !can()){
+          staff[k] -= 1;
+          layoffs = true;
+        }
+      }
+    }
+
+    const totals = totalAnnualCost(staff, ai, period);
+    const available = Math.max(0, Math.round(gross - totals.total));
+
+    return { staff, ai, available, layoffs };
+  }
+
+/* =========================================================
   Overheads (temporales)
   ========================================================= */
   function resetOverheadTemp(){
@@ -1218,6 +1307,7 @@ height:100vh;
   function SantiagoScreen(){
   const p = STATE.period;
   const totals = totalAnnualCost(STATE.staff, STATE.ai, p);
+  const pv = previewNextPeriod();
 
   return `
   <div class="topbar">
@@ -1226,6 +1316,8 @@ height:100vh;
   <div class="s">Compra/recorta personal, IA y equipamiento</div>
   </div>
   <div class="row">
+  <span class="pill">Proyectos concedidos (est.): <strong>${pv.projectsGranted}</strong></span>
+  <span class="pill">Próximo presupuesto (disp.): <strong>${eur(pv.nextBudgetAvailable)}</strong></span>
   <span class="pill">Presupuesto: <strong>${eur(STATE.budget)}</strong></span>
   <span class="pill">Total anual actual: <strong>${eur(totals.total)}</strong></span>
   </div>
@@ -1310,6 +1402,7 @@ height:100vh;
   }
 
   function PITimeScreen(){
+  const pv = previewNextPeriod();
   return `
   <div class="topbar">
   <div class="brand">
@@ -1317,6 +1410,8 @@ height:100vh;
   <div class="s">Elige tu prioridad del año (afecta a proyectos)</div>
   </div>
   <div class="row">
+  <span class="pill">Proyectos concedidos (est.): <strong>${pv.projectsGranted}</strong></span>
+  <span class="pill">Próximo presupuesto (disp.): <strong>${eur(pv.nextBudgetAvailable)}</strong></span>
   <span class="pill">Actual: <strong>${
   STATE.piTime==="read"?"Leer/formarte":
   STATE.piTime==="manage"?"Coordinar personal":
@@ -1347,6 +1442,7 @@ height:100vh;
   const totals = totalAnnualCost(STATE.staff, STATE.ai, p);
   const ohEur = overheadsEuro(totals.cP, totals.cAI);
   const bolsaIA = Math.floor(0.5 * ohEur);
+  const pv = previewNextPeriod();
 
   return `
   <div class="topbar">
@@ -1355,6 +1451,8 @@ height:100vh;
   <div class="s">No es dinero directo: aplica efectos SOLO este año</div>
   </div>
   <div class="row">
+  <span class="pill">Proyectos concedidos (est.): <strong>${pv.projectsGranted}</strong></span>
+  <span class="pill">Próximo presupuesto (disp.): <strong>${eur(pv.nextBudgetAvailable)}</strong></span>
   <span class="pill">Overheads€ (referencia): <strong>${eur(ohEur)}</strong></span>
   <span class="pill">Bolsa IA (50%): <strong>${eur(bolsaIA)}</strong></span>
   </div>
@@ -1388,11 +1486,16 @@ height:100vh;
   }
 
   function OverExtraStaffScreen(){
+  const pv = previewNextPeriod();
   return `
   <div class="topbar">
   <div class="brand">
   <div class="t">Overheads · Personal extra (virtual)</div>
   <div class="s">Elige AM o T virtual SOLO para cálculos este año</div>
+  </div>
+  <div class="row">
+  <span class="pill">Proyectos concedidos (est.): <strong>${pv.projectsGranted}</strong></span>
+  <span class="pill">Próximo presupuesto (disp.): <strong>${eur(pv.nextBudgetAvailable)}</strong></span>
   </div>
   </div>
 
@@ -1410,11 +1513,16 @@ height:100vh;
   }
 
   function OverExtraEquipScreen(){
+  const pv = previewNextPeriod();
   return `
   <div class="topbar">
   <div class="brand">
   <div class="t">Overheads · Equipamiento (virtual)</div>
   <div class="s">Acceso institucional SOLO este año</div>
+  </div>
+  <div class="row">
+  <span class="pill">Proyectos concedidos (est.): <strong>${pv.projectsGranted}</strong></span>
+  <span class="pill">Próximo presupuesto (disp.): <strong>${eur(pv.nextBudgetAvailable)}</strong></span>
   </div>
   </div>
 
@@ -1436,6 +1544,7 @@ height:100vh;
   const totals = totalAnnualCost(STATE.staff, STATE.ai, p);
   const ohEur = overheadsEuro(totals.cP, totals.cAI);
   const bolsaIA = Math.floor(0.5 * ohEur);
+  const pv = previewNextPeriod();
 
   // disponibilidad
   const avail = {
@@ -1471,6 +1580,10 @@ height:100vh;
   <div class="brand">
   <div class="t">Overheads · IA extra (virtual)</div>
   <div class="s">Bolsa IA: ${eur(bolsaIA)} · Restante: ${eur(remaining)}</div>
+  </div>
+  <div class="row">
+  <span class="pill">Proyectos concedidos (est.): <strong>${pv.projectsGranted}</strong></span>
+  <span class="pill">Próximo presupuesto (disp.): <strong>${eur(pv.nextBudgetAvailable)}</strong></span>
   </div>
   </div>
 
