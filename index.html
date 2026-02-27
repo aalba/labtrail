@@ -45,7 +45,8 @@ height:100vh;
   --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   }
   *{ box-sizing:border-box; }
-  body{ margin:0; font-family:var(--sans); background:transparent; color:var(--ink); }
+  body{ margin:0; font-family:var(--sans); background:transparent; color:var(--ink);
+  }
   #labtrail-root{
   max-width: 1100px;
   margin: 18px auto;
@@ -61,7 +62,8 @@ height:100vh;
   gap:12px; padding: 10px 12px; border-radius: 16px;
   background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
   border:1px solid var(--line);
-  }.brand{ display:flex; flex-direction:column; gap:2px; }.brand.t{ font-weight:800; letter-spacing:.4px; }.brand.s{ color:var(--muted); font-size: 12px; }.row{ display:flex; gap:12px; flex-wrap:wrap; }.pill{
+  }.brand{ display:flex; flex-direction:column; gap:2px; }.brand.t{ font-weight:800; letter-spacing:.4px; }.brand.s{ color:var(--muted); font-size: 12px; }.row{ display:flex;
+  gap:12px; flex-wrap:wrap; }.pill{
   font-family: var(--mono);
   font-size: 12px;
   padding: 8px 10px;
@@ -72,7 +74,7 @@ height:100vh;
   white-space: nowrap;
   }.pill strong{ color: var(--ink); }.grid{
   display:grid;
-  grid-template-columns: 1.1fr.9fr;
+  grid-template-columns: 1.1fr .9fr;
   gap: 12px;
   margin-top: 12px;
   }
@@ -82,7 +84,9 @@ height:100vh;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 14px;
-  }.card h2{ margin:0 0 10px; font-size: 18px; }.card h3{ margin:0 0 8px; font-size: 15px; color: var(--muted); font-weight: 700; }.muted{ color:var(--muted); }.mono{ font-family: var(--mono); }.sep{ height:1px; background: var(--line); margin: 10px 0; }.btns{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px; }
+  }.card h2{ margin:0 0 10px; font-size: 18px; }.card h3{ margin:0 0 8px; font-size: 15px; color: var(--muted);
+  font-weight: 700; }.muted{ color:var(--muted); }.mono{ font-family: var(--mono); }.sep{ height:1px; background: var(--line); margin: 10px 0; }.btns{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px;
+  }
   button{
   cursor:pointer;
   border: 1px solid var(--line);
@@ -91,10 +95,11 @@ height:100vh;
   border-radius: 14px;
   padding: 10px 12px;
   font-weight: 700;
-  transition: transform.05s ease, background.15s ease, border-color.15s ease;
+  transition: transform .05s ease, background .15s ease, border-color .15s ease;
   }
   button:hover{ background: var(--btn2); }
-  button:active{ transform: translateY(1px); }
+  button:active{ transform: translateY(1px);
+  }
   button.primary{
   background: linear-gradient(180deg, rgba(93,214,194,.28), rgba(93,214,194,.10));
   border-color: rgba(93,214,194,.40);
@@ -117,13 +122,15 @@ height:100vh;
   font-family: var(--mono);
   font-size: 12px;
   color: var(--muted);
-  }.list{ margin: 8px 0 0; padding-left: 18px; color: var(--muted); }.notice{
+  }.list{ margin: 8px 0 0; padding-left: 18px; color: var(--muted);
+  }.notice{
   border: 1px solid var(--line);
   background: rgba(255,255,255,.03);
   border-radius: 14px;
   padding: 10px 12px;
   margin-top: 10px;
-  }.notice.good{ border-color: rgba(104,240,138,.35); }.notice.bad{ border-color: rgba(255,107,107,.35); }.notice.warn{ border-color: rgba(255,204,102,.35); }.table{
+  }.notice.good{ border-color: rgba(104,240,138,.35);
+  }.notice.bad{ border-color: rgba(255,107,107,.35); }.notice.warn{ border-color: rgba(255,204,102,.35); }.table{
   width:100%;
   border-collapse: collapse;
   border:1px solid var(--line);
@@ -134,7 +141,8 @@ height:100vh;
   border-bottom:1px solid var(--line);
   text-align:left;
   font-size: 13px;
-  }.table th{ color: var(--muted); font-weight: 800; background: rgba(255,255,255,.03); }.table tr:last-child td{ border-bottom:none; }.tag{
+  }.table th{ color: var(--muted); font-weight: 800;
+  background: rgba(255,255,255,.03); }.table tr:last-child td{ border-bottom:none; }.tag{
   display:inline-block;
   font-size: 12px;
   padding: 4px 8px;
@@ -142,17 +150,21 @@ height:100vh;
   border:1px solid var(--line);
   background: rgba(255,255,255,.03);
   color: var(--muted);
-  }.tag.good{ border-color: rgba(104,240,138,.35); color: var(--good); }.tag.bad{ border-color: rgba(255,107,107,.35); color: var(--bad); }.tag.warn{ border-color: rgba(255,204,102,.35); color: var(--warn); }.small{ font-size: 12px; }.two-col{
+  }.tag.good{ border-color: rgba(104,240,138,.35); color: var(--good); }.tag.bad{ border-color: rgba(255,107,107,.35); color: var(--bad); }.tag.warn{ border-color: rgba(255,204,102,.35); color: var(--warn);
+  }.small{ font-size: 12px; }.two-col{
   display:grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   }
-  @media (max-width: 700px){.two-col{ grid-template-columns:1fr; }
+  @media (max-width: 700px){.two-col{ grid-template-columns:1fr;
+  }
   }.counter{
   display:flex; align-items:center; justify-content:space-between;
   gap:10px; padding: 8px 10px; border:1px solid var(--line);
   border-radius: 14px; background: rgba(255,255,255,.02);
-  }.counter.name{ font-weight:800; }.counter.meta{ color:var(--muted); font-size:12px; }.counter.actions{ display:flex; gap:8px; }.counter.actions button{ padding: 6px 10px; border-radius: 12px; font-weight:900; }
+  }.counter.name{ font-weight:800;
+  }.counter.meta{ color:var(--muted); font-size:12px; }.counter.actions{ display:flex; gap:8px; }.counter.actions button{ padding: 6px 10px; border-radius: 12px; font-weight:900;
+  }
 </style>
 
 <script>
@@ -168,7 +180,7 @@ height:100vh;
   eventChance: 0.30,
   rareChanceGivenEvent: 0.05,
   secondEventChance: 0.10,
-  maxActiveFlags: 2,  //  pedido: máximo 2 flags activas
+  maxActiveFlags: 2,
   chainBoostMultiplier: 1.0
   },
   predictable: {
@@ -190,7 +202,7 @@ height:100vh;
   };
 
   const GAME_SETTINGS = {
-  worldPresetKey: "standard" // por ahora fijo. Futuro: elegir al empezar.
+  worldPresetKey: "standard"
   };
 
   function getWorldConfig(){
@@ -207,12 +219,10 @@ height:100vh;
   opsRate: 0.20,
   overheadRate: 0.20
   };
-
   const EQUIP_EFFECTS = {
   MED: { cap: 2, prod: 1 },
   HIGH: { cap: 7, prod: 4 }
   };
-
   const AI_AVAILABLE = {
   GPT: (period) => true,
   AGI: (period) => period >= 5,
@@ -221,45 +231,35 @@ height:100vh;
 
   /* =========================================================
   Eventos + flags + encadenados
-  - NO afectan a costes directamente
   ========================================================= */
-
   const EVENTS = [
   // Negativos
   {
   id:"equip_broken", rare:false, duration:1,
   name:" Equipo averiado",
   text:"¡Mala suerte! Uno de tus equipos se avería y el servicio técnico tarda en llegar.",
-  mods:[
-  { kind:"delta", var:"capExp", value:-2 }
-  ],
+  mods:[ { kind:"delta", var:"capExp", value:-2 } ],
   flags:[{id:"flag_equip_stress", dur:1}]
   },
   {
   id:"admin_issue", rare:false, duration:2,
   name:" Problema administrativo",
   text:"La oficina de gestión se ha colapsado. Facturas atascadas, compras congeladas.",
-  mods:[
-  { kind:"delta", var:"effOp", value:-2 }
-  ],
+  mods:[ { kind:"delta", var:"effOp", value:-2 } ],
   flags:[{id:"flag_admin_colapso", dur:2}]
   },
   {
   id:"funding_delay", rare:false, duration:1,
   name:" Retraso en financiación",
   text:"Te conceden el proyecto… pero el dinero llega tarde.",
-  mods:[
-  { kind:"mul_next_budget", value:0.75 } // afecta al presupuesto del siguiente periodo
-  ],
+  mods:[ { kind:"mul_next_budget", value:0.75 } ],
   flags:[]
   },
   {
   id:"key_sick", rare:false, duration:1,
   name:" Baja médica clave",
   text:"Un miembro clave del equipo coge una baja larga.",
-  mods:[
-  { kind:"delta", var:"prodSci", value:-2 }
-  ],
+  mods:[ { kind:"delta", var:"prodSci", value:-2 } ],
   flags:[]
   },
   {
@@ -318,9 +318,7 @@ height:100vh;
   id:"ai_automation", rare:false, duration:1,
   name:" Automatización brutal",
   text:"Encuentras un flujo de IA que te ahorra días de trabajo.",
-  mods:[
-  { kind:"delta", var:"effOp", value:+3 }
-  ],
+  mods:[ { kind:"delta", var:"effOp", value:+3 } ],
   flags:[]
   },
   {
@@ -337,30 +335,19 @@ height:100vh;
   id:"core_facility", rare:false, duration:1,
   name:" Infraestructura compartida",
   text:"La universidad te abre un core facility durante un tiempo.",
-  mods:[
-  { kind:"delta", var:"capExp", value:+4 }
-  ],
+  mods:[ { kind:"delta", var:"capExp", value:+4 } ],
   flags:[{id:"flag_core_access", dur:1}]
   }
   ];
 
-  // Encadenados: boosts por flags activas (se aplican al sorteo del próximo evento)
+  // Encadenados
   const CHAIN_BOOSTS = [
-  // Colaboración -> aumenta prob de paper top y premio
   { flag:"flag_colab_internacional", event:"top_paper", boost:0.15 },
   { flag:"flag_colab_internacional", event:"young_award", boost:0.05 },
-
-  // Paper top -> aumenta prob de premio y colaboración
   { flag:"flag_paper_momentum", event:"young_award", boost:0.10 },
   { flag:"flag_paper_momentum", event:"intl_collab", boost:0.10 },
-
-  // Admin colapso -> aumenta prob de retraso financiación
   { flag:"flag_admin_colapso", event:"funding_delay", boost:0.20 },
-
-  // Equip estrés -> aumenta prob de reactivos defectuosos
   { flag:"flag_equip_stress", event:"bad_reagents", boost:0.10 },
-
-  // Core facility -> aumenta paper top pero también revisor duro (más escrutinio)
   { flag:"flag_core_access", event:"top_paper", boost:0.10 },
   { flag:"flag_core_access", event:"harsh_reviewer", boost:0.05 }
   ];
@@ -377,13 +364,9 @@ height:100vh;
   }
   function yearFromPeriod(p){ return 2027 + p; }
 
-  function rand(){
-  // Mersenne simple no; suficiente Math.random
-  return Math.random();
-  }
+  function rand(){ return Math.random(); }
 
   function weightedPick(items){
-  // items: [{item, w}]
   const sum = items.reduce((s, it) => s + Math.max(0, it.w), 0);
   if (sum <= 0) return items[0]?.item?? null;
   let r = rand() * sum;
@@ -402,7 +385,7 @@ height:100vh;
   function addFlag(state, flagId, durationPeriods){
   const cfg = getWorldConfig();
   const now = state.period;
-  const expiresAt = now + durationPeriods + 1; // activo este periodo + dur
+  const expiresAt = now + durationPeriods + 1;
   const idx = state.activeFlags.findIndex(f => f.id === flagId);
   if (idx!== -1){
   state.activeFlags[idx].expiresAt = Math.max(state.activeFlags[idx].expiresAt, expiresAt);
@@ -427,24 +410,21 @@ height:100vh;
   Estado del juego
   ========================================================= */
   const SAVE_KEY = "LABTRAIL_SAVE_V1";
-
   function newGame(){
   return {
   screen: "title",
   period: 0,
-  budget: 200000,  // presupuesto inicial (ajustable)
   budgetGross: 400000,  // presupuesto bruto del periodo (ingreso)
-  nextBudgetMultiplier: 1.0,  // por eventos tipo retraso financiación
 
   staff: { IP:1, S:0, T:0, R:0, AM:0, BM:0 },
   ai: { GPT:0, AGI:0, PI:0 },
   equip: { MED:0, HIGH:0 },
-  equipHistory: [],  // {type:"MED"/"HIGH", period:int}
+  equipHistory: [],  
 
   // Decisiones del año
-  piTime: "read",  // read / manage / collab
-  overheadChoice: null,  // "extraStaff" / "extraAI" / "extraEquip" / "institution"
-  overheadTemp: {  // efectos temporales de overheads
+  piTime: "read",  
+  overheadChoice: null,  
+  overheadTemp: {  
   staffVirtual: { AM:0, T:0 },
   aiVirtual: { GPT:0, AGI:0, PI:0 },
   equipVirtual: { MED:0, HIGH:0 },
@@ -454,7 +434,7 @@ height:100vh;
   // Variables acumuladas
   articlesTotal: 0,
   projectsTotal: 0,
-  impactIndex: 1,  // índice acumulado estilo h-index simplificado (>=1)
+  impactIndex: 1,  
 
   // Variables por periodo (último año)
   last: {
@@ -465,7 +445,7 @@ height:100vh;
   capExp: 1,
   prodSci: 1,
   effOp: 1,
-  innovLevel: 0,  // 0/1/2
+  innovLevel: 0,  
   reput: 1,
   projectsWritten: 0,
   ratio: 10,
@@ -477,8 +457,8 @@ height:100vh;
   },
 
   // Eventos / flags
-  activeEvents: [],  // [{id, name, text, endsAt, mods}]
-  activeFlags: [],  // [{id, addedAt, expiresAt}]
+  activeEvents: [],  
+  activeFlags: [],  
 
   // UI
   toast: ""
@@ -486,7 +466,6 @@ height:100vh;
   }
 
   let STATE = load() || newGame();
-  // Normaliza presupuesto en partidas antiguas y recalcula disponible
   ensureBudgetFields();
 
   function save(){
@@ -497,7 +476,6 @@ height:100vh;
   const raw = localStorage.getItem(SAVE_KEY);
   if (!raw) return null;
   const s = JSON.parse(raw);
-  // Normaliza por si faltan claves en actualizaciones
   return {...newGame(),...s };
   }catch(e){ return null; }
   }
@@ -525,7 +503,7 @@ height:100vh;
   }
 
   /* =========================================================
-  Cálculos de costes (solo para presupuesto)
+  Cálculos de costes y Presupuesto Dinámico
   ========================================================= */
   function staffCost(staff){
   return (
@@ -538,7 +516,6 @@ height:100vh;
   );
   }
   function aiCost(ai, period){
-  // Si no está disponible en ese periodo, su coste se considera 0 (no debería existir)
   let c = 0;
   c += (ai.GPT||0) * COSTS.ai.GPT;
   c += (AI_AVAILABLE.AGI(period)? (ai.AGI||0): 0) * COSTS.ai.AGI;
@@ -559,41 +536,34 @@ height:100vh;
   const ops = opsCost(cP);
   const oh = overheadsEuro(cP, cAI);
   return { cP, cAI, ops, oh, total: cP + cAI + ops + oh };
-}
+  }
 
-// Comprueba si un presupuesto bruto (gross) cubre los costes anuales automáticos
-function canAffordWith(staff, ai, gross, period){
+  function canAffordWith(staff, ai, gross, period){
   const t = totalAnnualCost(staff, ai, period);
   return (gross || 0) >= t.total;
-}
-
+  }
 
   /* =========================================================
-  Presupuesto disponible (recalculado en vivo)
-  - budgetGross: ingreso del periodo menos compras puntuales (equipamiento)
-  - budget: disponible tras restar Personal + IA + Operativos + Overheads
-  - Nunca puede ser < 0
+  Presupuesto disponible (calculado al vuelo, no guardado)
   ========================================================= */
-  function recalcBudget(){
+  function getBudgetInfo(){
   const p = STATE.period;
-  if (typeof STATE.budgetGross!== "number") STATE.budgetGross = Number(STATE.budget || 0) || 0;
+  const gross = STATE.budgetGross || 0;
   const t = totalAnnualCost(STATE.staff, STATE.ai, p);
-  const avail = Math.max(0, Math.round(STATE.budgetGross - t.total));
-  STATE.budget = avail;
-  return {...t, avail };
+  const avail = Math.max(0, Math.round(gross - t.total));
+  return {...t, avail, gross };
   }
 
   function ensureBudgetFields(){
-  if (typeof STATE.budgetGross!== "number") STATE.budgetGross = Number(STATE.budget || 0) || 0;
-  recalcBudget();
+  // Compatibilidad partidas antiguas
+  if (typeof STATE.budgetGross !== "number") STATE.budgetGross = Number(STATE.budget || 0) || 0;
+  // Eliminamos claves obsoletas
+  delete STATE.budget;
+  delete STATE.nextBudgetMultiplier;
   }
 
   /* =========================================================
   Despidos automáticos / recortes IA (inicio de año)
-  - NO toca el IP (fijo)
-  - Regla de recorte:
-  1) recorta IA (GPT, AGI, PI) en ese orden
-  2) recorta personal: AM, BM, S, T, R (orden confirmado)
   ========================================================= */
   function enforceAffordability(){
   const p = STATE.period;
@@ -602,13 +572,11 @@ function canAffordWith(staff, ai, gross, period){
 
   const canAfford = () => {
   const t = totalAnnualCost(STATE.staff, STATE.ai, p);
-  return (STATE.budgetGross?? STATE.budget) >= t.total;
+  return (STATE.budgetGross || 0) >= t.total;
   };
 
-  // Si ya se puede, ok
   if (canAfford()) return { layoffs:false, note:"" };
 
-  // 1) recorte IA
   const aiOrder = ["GPT","AGI","PI"];
   for (const k of aiOrder){
   while (STATE.ai[k] > 0 &&!canAfford()){
@@ -618,7 +586,6 @@ function canAffordWith(staff, ai, gross, period){
   }
   }
 
-  // 2) recorte personal (sin IP)
   const staffOrder = ["AM","BM","S","T","R"];
   for (const k of staffOrder){
   while (STATE.staff[k] > 0 &&!canAfford()){
@@ -628,13 +595,7 @@ function canAffordWith(staff, ai, gross, period){
   }
   }
 
-  // Si aun así no puede (caso extremo), deja presupuesto en 0 y sigue
   if (!canAfford()){
-  // No podemos despedir más: forzamos presupuesto a 0 para no entrar en negativo.
-  // (En la práctica, con IP fijo, si el presupuesto es demasiado bajo, el jugador "quiebra".)
-  // Aquí lo manejamos con mensaje.
-  STATE.budget = 0;
-  if (typeof STATE.budgetGross!== 'number') STATE.budgetGross = Number(STATE.budget || 0) || 0;
   layoffs = true;
   note.push(" Presupuesto insuficiente incluso tras recortes (IP fijo).");
   }
@@ -643,12 +604,9 @@ function canAffordWith(staff, ai, gross, period){
   }
 
   /* =========================================================
-  Variables derivadas (con temporales de overheads + eventos activos)
+  Variables derivadas
   ========================================================= */
   function innovationLevel(){
-  // Alta: equipo adquirido en últimos 4 periodos
-  // Media: en últimos 10
-  // Baja: hace >10 o ninguno
   const p = STATE.period;
   if (STATE.equipHistory.length === 0) return 0;
   const last = Math.max(...STATE.equipHistory.map(e => e.period));
@@ -659,7 +617,6 @@ function canAffordWith(staff, ai, gross, period){
   }
 
   function activeEventMods(){
-  // Devuelve lista de mods de eventos activos en este periodo
   const p = STATE.period;
   return STATE.activeEvents.filter(ev => ev.endsAt >= p).flatMap(ev => ev.mods.map(m => ({...m, _src: ev.name})));
   }
@@ -667,7 +624,6 @@ function canAffordWith(staff, ai, gross, period){
   function computeDerived(){
   const p = STATE.period;
 
-  // Base conteos con temporales overhead
   const staff = STATE.staff;
   const ai = STATE.ai;
   const equip = STATE.equip;
@@ -677,8 +633,7 @@ function canAffordWith(staff, ai, gross, period){
 
   const vAI = STATE.overheadTemp.aiVirtual;
   const vEquip = STATE.overheadTemp.equipVirtual;
-
-  const totalPI = 1 + (ai.PI || 0); // PI real + PI virtual por móduloPI (idéntico efecto PI en Ideas)
+  const totalPI = 1 + (ai.PI || 0); 
 
   const eqMed = equip.MED + (vEquip.MED||0);
   const eqHigh = equip.HIGH + (vEquip.HIGH||0);
@@ -692,31 +647,17 @@ function canAffordWith(staff, ai, gross, period){
   const R = staff.R;
   const AM = staff.AM + vStaffAM;
   const BM = staff.BM;
-
-  // Innovación (0/1/2)
   const innov = innovationLevel();
 
-  // Capacidad experimental (base 1)
   let capExp = Math.max(1, 1 + 2*eqMed + 7*eqHigh + 3*modPI + 0.8*T + 0.3*S + 0.4*R);
-
-  // Productividad científica (base 1)
   let prodSci = Math.max(1, 1 + 1.5*R + 0.8*(modGPT+modAGI) + 0.4*eqMed + 1.2*eqHigh + 0.3*S);
-
-  // Eficiencia operativa (base 1)
   let effOp = Math.max(1, 1 + 1.2*AM + 0.6*(modGPT+modAGI));
-
-  // Reputación (base, se recalcula al cierre usando acumulados; aquí la aproximamos para “estimados”)
-  // La reputación real se recalcula en closeYear(), pero necesitamos estimados intermedios.
   let reput = STATE.last.reput || 1;
 
-  // Ideas: base 4 por cada PI (real + por cada móduloPI)
   let ideas = (4 * totalPI) + 2*(eqMed + eqHigh) + 1*T + 2*BM + 3*R;
-
-  // Bonos temporales por overhead “institución gestiona”
   effOp += (STATE.overheadTemp.instBonus.effOp || 0);
   reput += (STATE.overheadTemp.instBonus.reput || 0);
-
-  // Ajuste por eventos activos (deltas)
+  
   const mods = activeEventMods();
   for (const m of mods){
   if (m.kind === "delta"){
@@ -748,14 +689,11 @@ function canAffordWith(staff, ai, gross, period){
   }
 
   function computeProjectsWritten(ideas, prodSci, effOp){
-  // Depende principalmente de prodSci, también de effOp y tiempo PI
   const v = floor(0.6*prodSci + 0.4*effOp + bonusTimePI());
   return clamp(Math.min(ideas, Math.max(0, v)), 0, 9999);
   }
 
   function computeRatio(reput, capExp, prodSci, BM, totalPI){
-  // Ratio de éxito (en la vida real suele moverse ~10–40%).
-  // BM influye mucho; PI (real + por móduloPI) ayuda, pero sin disparar el ratio.
   let ratio = 8
     + 1.8*Math.sqrt(reput)
     + 1.0*Math.sqrt(capExp)
@@ -763,126 +701,90 @@ function canAffordWith(staff, ai, gross, period){
     + 4*BM
     + 1.5*totalPI
     + bonusTimePI();
-
-  // Mods por eventos activos (delta ratio)
   const mods = activeEventMods();
   for (const m of mods){
   if (m.kind === "delta" && m.var === "ratio") ratio += m.value;
   }
-
   ratio = clamp(Math.round(ratio), 5, 45);
   return ratio;
   }
 
   function computeArticles(prodSci, effOp, capExp, reput){
-  // Depende bastante de eficiencia, algo de reputación/capacidad
   let a = floor(0.35*prodSci + 0.55*effOp + 0.20*Math.sqrt(capExp) + 0.15*Math.sqrt(reput));
   a = Math.max(0, a);
-
-  // Mods por eventos (multiplicador)
   const mods = activeEventMods();
   for (const m of mods){
   if (m.kind === "mul" && m.var === "articles") a = floor(a * m.value);
   }
-
   return Math.max(0, a);
   }
 
   function computeImpactMean(reput, prodSci, innovLevel){
   let im = 1 + 0.25*Math.sqrt(reput) + 0.25*Math.sqrt(prodSci) + 0.6*innovLevel;
-
-  // Mods por eventos (delta)
   const mods = activeEventMods();
   for (const m of mods){
   if (m.kind === "delta" && m.var === "impactMean") im += m.value;
   }
-
   return clamp(Math.round(im * 10)/10, 1, 10);
   }
 
   function computeReputation(articlesTotal, projectsTotal, layoffsRecent){
-  // Derivada de artículos acumulados, proyectos acumulados y penalización por despidos recientes
   const penalty = layoffsRecent? 2: 0;
   const r = 1 + Math.sqrt(Math.max(0, articlesTotal)) + Math.sqrt(Math.max(0, projectsTotal)) - penalty;
   return Math.max(1, Math.round(r));
   }
 
   function computeBudgetMean(reput, teamSize, innovLevel, capExp, BM){
-  // 100k..300k progresivo según Reput, tamaño, innovación, capacidad; BM añade un poco
   const score =
   0.25*Math.sqrt(reput) +
   0.20*teamSize +
   0.25*innovLevel +
   0.30*Math.sqrt(capExp);
-
   const s = clamp(score, 0, 10) / 10;
   let mean = 100000 + 200000*s;
-
-  // BM pequeño efecto (hasta +10%)
   const bmMult = clamp(1 + 0.02*BM, 1, 1.10);
   mean *= bmMult;
-
-  // Mods por eventos (multiplicador)
   const mods = activeEventMods();
   for (const m of mods){
   if (m.kind === "mul" && m.var === "budgetMean") mean *= m.value;
   }
-
   return Math.round(mean);
   }
 
   function updateImpactIndex(prevIndex, articles, impactMean){
-  // Índice acumulado tipo h-index simplificado
-  // ImpactoIndex_{t+1} = ImpactoIndex_t + floor( (Articulos * ImpactoMedio)/(10+ImpactoIndex_t) * 3 )
   let add = floor(((articles * impactMean) / (10 + prevIndex)) * 3);
   add = Math.max(0, add);
   return Math.max(1, prevIndex + add);
   }
 
-  
   /* =========================================================
      Vista previa del siguiente periodo (en tiempo real)
-     - Calcula proyectos concedidos estimados del periodo actual
-     - Calcula presupuesto bruto del siguiente periodo
-     - Simula recortes automáticos al inicio del siguiente periodo
-     - Devuelve presupuesto disponible estimado del siguiente periodo
      ========================================================= */
   function previewNextPeriod(){
     const p = STATE.period;
-
     const d = computeDerived();
     const ideas = Math.round(d.ideas);
     const projectsWritten = computeProjectsWritten(ideas, d.prodSci, d.effOp);
     const ratio = computeRatio(d.reput, d.capExp, d.prodSci, STATE.staff.BM, (1 + (STATE.ai.PI||0)));
     const projectsGranted = floor(projectsWritten * ratio / 100);
-
-    // Artículos/impacto (para estimar reputación del cierre de año)
     const articles = computeArticles(d.prodSci, d.effOp, d.capExp, d.reput);
     const newArticlesTotal = (STATE.articlesTotal||0) + articles;
     const newProjectsTotal = (STATE.projectsTotal||0) + projectsGranted;
 
     const reputNext = computeReputation(newArticlesTotal, newProjectsTotal, !!(STATE.last && STATE.last.layoffs));
-
     const teamSize =
       (STATE.staff.IP||0) + (STATE.staff.S||0) + (STATE.staff.T||0) +
       (STATE.staff.R||0) + (STATE.staff.AM||0) + (STATE.staff.BM||0);
-
     const budgetMean = computeBudgetMean(reputNext, teamSize, d.innovLevel, d.capExp, STATE.staff.BM);
 
     let nextBudgetGross = Math.round(projectsGranted * budgetMean);
-
-    // Eventos que afectan al presupuesto del año siguiente
     for (const ev of (STATE.activeEvents||[]).filter(e => e.endsAt >= p)){
       for (const m of (ev.mods||[])){
         if (m.kind === "mul_next_budget") nextBudgetGross *= m.value;
       }
     }
-    nextBudgetGross *= (STATE.nextBudgetMultiplier || 1.0);
     nextBudgetGross = Math.round(nextBudgetGross);
-
-    // Simular recortes automáticos del siguiente periodo
     const sim = simulateAffordability(nextBudgetGross, p + 1);
-
     return {
       projectsWritten,
       projectsGranted,
@@ -897,14 +799,11 @@ function canAffordWith(staff, ai, gross, period){
   }
 
   function simulateAffordability(gross, period){
-    // Copias (sin mutar estado)
     const staff = JSON.parse(JSON.stringify(STATE.staff));
     const ai = JSON.parse(JSON.stringify(STATE.ai));
-
     const can = () => canAffordWith(staff, ai, gross, period);
 
     let layoffs = false;
-
     if (!can()){
       const aiOrder = ["GPT","AGI","PI"];
       for (const k of aiOrder){
@@ -944,22 +843,19 @@ function canAffordWith(staff, ai, gross, period){
   function applyOverheadInstitution(){
   STATE.overheadChoice = "institution";
   resetOverheadTemp();
-  STATE.overheadTemp.instBonus = { effOp:2, reput:1 }; //  constante fijada
+  STATE.overheadTemp.instBonus = { effOp:2, reput:1 };
   }
 
   /* =========================================================
-  Evento: sorteo con encadenados + flags activas (máx 2)
+  Evento: sorteo
   ========================================================= */
   function computeEventWeight(event){
-  // peso base
-  let w = event.rare? 1: 4; // normales más frecuentes
-  // boosts por flags
+  let w = event.rare? 1: 4; 
   const cfg = getWorldConfig();
   for (const f of STATE.activeFlags){
   for (const b of CHAIN_BOOSTS){
   if (b.flag === f.id && b.event === event.id){
-  // boost expresado como prob; lo convertimos a peso sumando proporcional
-  w += (b.boost * 20) * cfg.chainBoostMultiplier; // escala simple
+  w += (b.boost * 20) * cfg.chainBoostMultiplier;
   }
   }
   }
@@ -972,7 +868,6 @@ function canAffordWith(staff, ai, gross, period){
   function rollOneEvent(){
   if (rand() > cfg.eventChance) return null;
   const isRare = rand() < cfg.rareChanceGivenEvent;
-
   const pool = EVENTS.filter(e => e.rare === isRare);
   const pick = weightedPick(pool.map(e => ({ item: e, w: computeEventWeight(e) })));
   return pick || null;
@@ -981,7 +876,6 @@ function canAffordWith(staff, ai, gross, period){
   const e1 = rollOneEvent();
   if (e1) attachEvent(e1);
 
-  // segundo evento normal opcional
   if (e1 && rand() < cfg.secondEventChance){
   const pool = EVENTS.filter(e =>!e.rare);
   const pick = weightedPick(pool.map(e => ({ item: e, w: computeEventWeight(e) })));
@@ -999,8 +893,6 @@ function canAffordWith(staff, ai, gross, period){
   endsAt,
   mods: deepClone(evDef.mods || [])
   });
-
-  // flags
   for (const f of (evDef.flags || [])){
   addFlag(STATE, f.id, f.dur);
   }
@@ -1027,7 +919,7 @@ function canAffordWith(staff, ai, gross, period){
   <h2>Tu primer laboratorio</h2>
   <p class="muted">
   Tienes un contrato en una universidad de prestigio. Tu misión es montar un laboratorio que sobreviva y crezca:
-  recursos  variables  proyectos  presupuesto  y vuelta a empezar.
+  recursos → variables → proyectos → presupuesto → y vuelta a empezar.
   </p>
   <div class="notice warn">
   <div><strong>Atajos:</strong> en la introducción puedes pulsar <span class="kbd">ESPACIO</span>.</div>
@@ -1097,13 +989,12 @@ function canAffordWith(staff, ai, gross, period){
   }
 
   function YearScreen(){
-  // Inicio de año: aplicar recortes automáticos si hace falta (solo una vez por visita)
-  // Para evitar que se ejecute cada render, lo hacemos al entrar desde otra pantalla.
   const d = computeDerived();
   const p = STATE.period;
   const y = yearFromPeriod(p);
 
-  const totals = totalAnnualCost(STATE.staff, STATE.ai, p);
+  const budgetInfo = getBudgetInfo();
+  const totals = budgetInfo; 
   const flagsTxt = (STATE.activeFlags.length? STATE.activeFlags.map(f=>f.id.replace("flag_","")).join(", "): "—");
   const eventsActiveTxt = (STATE.activeEvents.filter(e=>e.endsAt>=p).length? STATE.activeEvents.filter(e=>e.endsAt>=p).map(e=>e.name).join(" · "): "—");
 
@@ -1113,7 +1004,6 @@ function canAffordWith(staff, ai, gross, period){
   const ratio = computeRatio(d.reput, d.capExp, d.prodSci, STATE.staff.BM, totalPI);
   const projectsGranted = Math.floor(projectsWritten * ratio / 100);
 
-
   return `
   <div class="topbar">
   <div class="brand">
@@ -1121,7 +1011,7 @@ function canAffordWith(staff, ai, gross, period){
   <div class="s">Gestiona recursos y cierra el año para calcular resultados</div>
   </div>
   <div class="row">
-  <span class="pill">Presupuesto: <strong>${eur(STATE.budget)}</strong></span>
+  <span class="pill">Presupuesto (disponible): <strong>${eur(budgetInfo.avail)}</strong></span>
   <span class="pill">Flags activas: <strong>${flagsTxt}</strong></span>
   </div>
   </div>
@@ -1193,7 +1083,8 @@ function canAffordWith(staff, ai, gross, period){
   </div>
 
   <div class="notice">
-  <div><strong>Overheads (temporal):</strong> ${
+  <div><strong>Overheads (temporal):</strong> 
+  ${
   STATE.overheadChoice? (
   STATE.overheadChoice==="extraStaff"? " Personal extra (virtual)":
   STATE.overheadChoice==="extraAI"? " IA extra (virtual)":
@@ -1271,6 +1162,7 @@ function canAffordWith(staff, ai, gross, period){
   const projectsGranted = floor(projectsWritten * ratio / 100);
   const articles = computeArticles(d.prodSci, d.effOp, d.capExp, d.reput);
   const impactMean = computeImpactMean(d.reput, d.prodSci, d.innovLevel);
+  const budgetInfo = getBudgetInfo();
 
   const teamSize = STATE.staff.IP + STATE.staff.S + STATE.staff.T + STATE.staff.R + STATE.staff.AM + STATE.staff.BM;
   const budgetMean = computeBudgetMean(d.reput, teamSize, d.innovLevel, d.capExp, STATE.staff.BM);
@@ -1283,7 +1175,7 @@ function canAffordWith(staff, ai, gross, period){
   </div>
   <div class="row">
   <span class="pill">Periodo: <strong>${p}</strong></span>
-  <span class="pill">Presupuesto: <strong>${eur(STATE.budget)}</strong></span>
+  <span class="pill">Presupuesto (disponible): <strong>${eur(budgetInfo.avail)}</strong></span>
   </div>
   </div>
 
@@ -1313,9 +1205,8 @@ function canAffordWith(staff, ai, gross, period){
 
   function SantiagoScreen(){
   const p = STATE.period;
-  const totals = totalAnnualCost(STATE.staff, STATE.ai, p);
+  const budgetInfo = getBudgetInfo();
   const pv = previewNextPeriod();
-
   return `
   <div class="topbar">
   <div class="brand">
@@ -1325,8 +1216,8 @@ function canAffordWith(staff, ai, gross, period){
   <div class="row">
   <span class="pill">Proyectos concedidos (est.): <strong>${pv.projectsGranted}</strong></span>
   <span class="pill">Próximo presupuesto (disp.): <strong>${eur(pv.nextBudgetAvailable)}</strong></span>
-  <span class="pill">Presupuesto: <strong>${eur(STATE.budget)}</strong></span>
-  <span class="pill">Total anual actual: <strong>${eur(totals.total)}</strong></span>
+  <span class="pill">Presupuesto (disponible): <strong>${eur(budgetInfo.avail)}</strong></span>
+  <span class="pill">Total anual actual: <strong>${eur(budgetInfo.total)}</strong></span>
   </div>
   </div>
 
@@ -1450,7 +1341,6 @@ function canAffordWith(staff, ai, gross, period){
   const ohEur = overheadsEuro(totals.cP, totals.cAI);
   const bolsaIA = Math.floor(0.5 * ohEur);
   const pv = previewNextPeriod();
-
   return `
   <div class="topbar">
   <div class="brand">
@@ -1478,7 +1368,8 @@ function canAffordWith(staff, ai, gross, period){
 
   <div class="notice">
   <div><strong>Opción actual:</strong> ${
-  STATE.overheadChoice? (STATE.overheadChoice==="extraStaff"?" Personal extra (virtual)":
+  STATE.overheadChoice?
+  (STATE.overheadChoice==="extraStaff"?" Personal extra (virtual)":
   STATE.overheadChoice==="extraAI"?" IA extra (virtual)":
   STATE.overheadChoice==="extraEquip"?" Equipamiento (virtual)":" Institución gestiona"): "—"
   }</div>
@@ -1552,18 +1443,14 @@ function canAffordWith(staff, ai, gross, period){
   const ohEur = overheadsEuro(totals.cP, totals.cAI);
   const bolsaIA = Math.floor(0.5 * ohEur);
   const pv = previewNextPeriod();
-
-  // disponibilidad
   const avail = {
   GPT: true,
   AGI: AI_AVAILABLE.AGI(p),
   PI: AI_AVAILABLE.PI(p)
   };
-
   const v = STATE.overheadTemp.aiVirtual;
   const spend = (v.GPT*1000) + (v.AGI*1000) + (v.PI*10000);
   const remaining = Math.max(0, bolsaIA - spend);
-
   function row(key, label, cost){
   const disabled =!avail[key];
   const n = disabled? 0: (v[key]||0);
@@ -1617,9 +1504,7 @@ function canAffordWith(staff, ai, gross, period){
   const L = STATE.last;
   const y = yearFromPeriod(STATE.period - 1);
   const nextY = yearFromPeriod(STATE.period);
-
   const flagsTxt = (STATE.activeFlags.length? STATE.activeFlags.map(f=>`${f.id.replace("flag_","")} (hasta ${yearFromPeriod(f.expiresAt-1)})`).join(" · "): "—");
-
   return `
   <div class="topbar">
   <div class="brand">
@@ -1636,7 +1521,8 @@ function canAffordWith(staff, ai, gross, period){
   <div class="card">
   <h2>Diario del año</h2>
 
-  ${L.events.length? `
+  ${L.events.length?
+  `
   <div class="notice">
   <div><strong>Eventos:</strong></div>
   <ul class="list">
@@ -1681,7 +1567,9 @@ function canAffordWith(staff, ai, gross, period){
   <h3>Consejo de Santiago</h3>
   <p class="muted">
   ${
-  L.projectsGranted === 0? "Este año no entró financiación nueva. Ajusta tamaño del equipo y usa overheads para estabilizarte.": L.projectsGranted >= 3? "Muy buen año. Vigila no crecer demasiado rápido para no forzar recortes el próximo periodo.": "Vas en buena dirección. Optimiza eficiencia (AM/IA) y refuerza el éxito (BM/colaboraciones)."
+  L.projectsGranted === 0?
+  "Este año no entró financiación nueva. Ajusta tamaño del equipo y usa overheads para estabilizarte.": L.projectsGranted >= 3?
+  "Muy buen año. Vigila no crecer demasiado rápido para no forzar recortes el próximo periodo.": "Vas en buena dirección. Optimiza eficiencia (AM/IA) y refuerza el éxito (BM/colaboraciones)."
   }
   </p>
   </div>
@@ -1697,10 +1585,8 @@ function canAffordWith(staff, ai, gross, period){
   STATE = newGame();
   save();
   setScreen("intro");
-  // Al empezar, aplicamos costes y recortes del primer año en el primer acceso a "year"
   },
   continueGame(){
-  // si estaba en title, lleva al año o intro según estado
   if (!STATE.screen || STATE.screen === "title") setScreen("year");
   else render();
   },
@@ -1722,27 +1608,24 @@ function canAffordWith(staff, ai, gross, period){
   // Personal / IA / Equip
   incStaff(k){
   const p = STATE.period;
-  if (k === "IP") return; // IP fijo
+  if (k === "IP") return;
   const prev = STATE.staff[k];
   STATE.staff[k] = prev + 1;
 
   const t = totalAnnualCost(STATE.staff, STATE.ai, p);
-  const gross = (typeof STATE.budgetGross === "number")? STATE.budgetGross: (Number(STATE.budget)||0);
+  const gross = STATE.budgetGross || 0;
 
   if (gross < t.total){
   STATE.staff[k] = prev;
-  recalcBudget();
   return toast("Presupuesto insuficiente (incluye operativos + overheads).");
   }
 
-  recalcBudget();
   save(); render();
   },
   decStaff(k){
-  if (k === "IP") return; // IP fijo
+  if (k === "IP") return;
   if (STATE.staff[k] <= 0) return;
   STATE.staff[k] -= 1;
-  recalcBudget();
   save(); render();
   },
   incAI(k){
@@ -1752,15 +1635,13 @@ function canAffordWith(staff, ai, gross, period){
   STATE.ai[k] = prev + 1;
 
   const t = totalAnnualCost(STATE.staff, STATE.ai, p);
-  const gross = (typeof STATE.budgetGross === "number")? STATE.budgetGross: (Number(STATE.budget)||0);
+  const gross = STATE.budgetGross || 0;
 
   if (gross < t.total){
   STATE.ai[k] = prev;
-  recalcBudget();
   return toast("Presupuesto insuficiente (incluye operativos + overheads).");
   }
 
-  recalcBudget();
   save(); render();
   },
   decAI(k){
@@ -1768,18 +1649,17 @@ function canAffordWith(staff, ai, gross, period){
   if (!AI_AVAILABLE[k](p)) return;
   if ((STATE.ai[k]||0) <= 0) return;
   STATE.ai[k] -= 1;
-  recalcBudget();
   save(); render();
   },
   buyEquip(type){
   const cost = COSTS.equipment[type];
-  recalcBudget();
-  if (STATE.budget < cost) return toast("Presupuesto insuficiente para ese equipo.");
+  const info = getBudgetInfo();
+  
+  if (info.avail < cost) return toast("Presupuesto insuficiente para ese equipo.");
+  
   STATE.equip[type] += 1;
-  if (typeof STATE.budgetGross!== "number") STATE.budgetGross = Number(STATE.budget || 0) || 0;
   STATE.budgetGross -= cost;
   STATE.equipHistory.push({ type, period: STATE.period });
-  recalcBudget();
   save(); render();
   },
 
@@ -1845,7 +1725,7 @@ function canAffordWith(staff, ai, gross, period){
 
   overInstitution(){
   resetOverheadTemp();
-  applyOverheadInstitution(); // EficOp +2, Reput +1 (temporal)
+  applyOverheadInstitution();
   save();
   toast("La institución gestiona overheads (solo este año).");
   render();
@@ -1857,17 +1737,10 @@ function canAffordWith(staff, ai, gross, period){
   },
 
   closeYear(targetScreen="results"){
-  // targetScreen: "results" (por defecto) o "year" para continuar directamente
-  // 1) Antes de cálculos: sortear eventos nuevos del periodo actual
   pruneExpiredFlags(STATE);
-
-  // Limpia eventos expirados (mantiene histórico para UI si quieres)
   STATE.activeEvents = STATE.activeEvents.filter(e => e.endsAt >= STATE.period);
-
-  // Añade eventos del año (con encadenados)
   maybeAddEventsThisPeriod();
 
-  // 2) Recalcular derivados ya con overheads + eventos activos
   const d = computeDerived();
   const ideas = Math.round(d.ideas);
   const projectsWritten = computeProjectsWritten(ideas, d.prodSci, d.effOp);
@@ -1877,7 +1750,6 @@ function canAffordWith(staff, ai, gross, period){
   const articles = computeArticles(d.prodSci, d.effOp, d.capExp, d.reput);
   const impactMean = computeImpactMean(d.reput, d.prodSci, d.innovLevel);
 
-  // ImpactIndex mods por eventos (delta directa)
   let impactIndex = STATE.impactIndex;
   const mods = activeEventMods();
   for (const m of mods){
@@ -1885,23 +1757,15 @@ function canAffordWith(staff, ai, gross, period){
   }
   impactIndex = updateImpactIndex(Math.max(1, impactIndex), articles, impactMean);
 
-  // Acumulados
   STATE.articlesTotal += articles;
   STATE.projectsTotal += projectsGranted;
   STATE.impactIndex = impactIndex;
-
-  // Reputación real del final de año (penaliza si hubo recortes este o el anterior)
-  // Para simplificar “reciente”: usamos si hubo recortes al inicio de ESTE año (STATE.last.layoffs)
+  
   const reput = computeReputation(STATE.articlesTotal, STATE.projectsTotal, STATE.last.layoffs);
-
-  // Presupuesto medio
   const teamSize = STATE.staff.IP + STATE.staff.S + STATE.staff.T + STATE.staff.R + STATE.staff.AM + STATE.staff.BM;
   const budgetMean = computeBudgetMean(reput, teamSize, d.innovLevel, d.capExp, STATE.staff.BM);
 
-  // Presupuesto siguiente año
   let nextBudget = projectsGranted * budgetMean;
-
-  // Eventos que multiplican presupuesto siguiente (sin tocar costes)
   for (const ev of STATE.activeEvents.filter(e=>e.endsAt>=STATE.period)){
   for (const m of ev.mods){
   if (m.kind === "mul_next_budget"){
@@ -1909,20 +1773,18 @@ function canAffordWith(staff, ai, gross, period){
   }
   }
   }
-  // Multiplicador diferido (por si en el futuro metes más reglas)
-  nextBudget *= (STATE.nextBudgetMultiplier || 1.0);
   nextBudget = Math.round(nextBudget);
 
-  // Guardar “last”
   STATE.last = {
-  layoffs: STATE.last.layoffs, // se actualizará al inicio del siguiente año
+  layoffs: STATE.last.layoffs, 
   layoffsNote: STATE.last.layoffsNote || "",
   events: STATE.activeEvents
-        .filter(e => e.endsAt >= STATE.period) // eventos activos/ocurridos este año
+        .filter(e => e.endsAt >= STATE.period)
         .map(e => {
           const def = EVENTS.find(x => x.id === e.id);
           const dur = (def?.duration ?? 0);
           const durationTxt = dur === 0 ? "solo este año" : (dur === 1 ? "2 años" : "3 años");
+         
           return { name: e.name, text: e.text, durationTxt };
         }),
   ideas,
@@ -1939,24 +1801,15 @@ function canAffordWith(staff, ai, gross, period){
   budgetMean,
   nextBudget
   };
-
-  // 3) Avanzar periodo
+  
   STATE.period += 1;
-
-  // 4) Aplicar presupuesto del siguiente año
   STATE.budgetGross = nextBudget;
-  STATE.budget = nextBudget; // se recalculará (disponible) abajo
-
-  // 5) Reset temporales (overheads se borran) y mantener piTime
   resetOverheadTemp();
 
-  // 6) Inicio del nuevo año: aplicar presupuesto bruto y recortes si hace falta
-  //  Ahora el presupuesto disponible se recalcula en vivo (incluye operativos + overheads).
   ensureBudgetFields();
   const res = enforceAffordability();
   STATE.last.layoffs =!!res.layoffs;
   STATE.last.layoffsNote = res.note || "";
-  recalcBudget();
 
   save();
   setScreen(targetScreen);
@@ -1964,32 +1817,23 @@ function canAffordWith(staff, ai, gross, period){
   };
 
   /* =========================================================
-  Entrada al año: descontar costes automáticos una sola vez
-  - Se aplica cuando entras por primera vez a YearScreen desde intro/title/results.
+  Entrada al año
   ========================================================= */
   let _lastScreen = STATE.screen;
 
   function ensureYearStart(){
-  // Al entrar en el año (desde otra pantalla), normalizamos presupuesto y aplicamos recortes si hace falta.
   if (STATE.screen!== "year") return;
 
   const cameFromOther = _lastScreen!== "year";
   if (!cameFromOther) return;
 
-  // Normaliza budgetGross/budget y recalcula disponible
   ensureBudgetFields();
-
-  // Limpia expiradas al entrar
   pruneExpiredFlags(STATE);
   STATE.activeEvents = STATE.activeEvents.filter(e => e.endsAt >= STATE.period);
-
-  // Si el presupuesto bruto no cubre costes anuales, aplicamos recortes automáticos
+  
   const res = enforceAffordability();
   STATE.last.layoffs =!!res.layoffs;
   STATE.last.layoffsNote = res.note || "";
-
-  // Recalcula presupuesto disponible tras los recortes
-  recalcBudget();
 
   save();
   }
@@ -2025,7 +1869,7 @@ function canAffordWith(staff, ai, gross, period){
   setScreen("year");
   }
   });
-
+  
   // Arranque: si no hay screen, vuelve a title
   if (!STATE.screen) STATE.screen = "title";
   render();
