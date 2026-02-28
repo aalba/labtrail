@@ -700,7 +700,7 @@ height:100vh;
     + 1.1*Math.sqrt(prodSci)
     + 4*BM
     + 1.5*totalPI
-    + bonusTimePI();
+    + 5*bonusTimePI();
   const mods = activeEventMods();
   for (const m of mods){
   if (m.kind === "delta" && m.var === "ratio") ratio += m.value;
@@ -1022,9 +1022,9 @@ height:100vh;
   <div class="grid">
   <div class="card">
   <div class="btns" style="margin-top:2px;margin-bottom:10px">
-    <button class="primary" onclick="__LT.go('santiago')">Hablar con Santiago (presupuesto)</button>
-    <button class="primary" onclick="__LT.go('pitime')">Ajustar tiempo del IP</button>
-    <button class="primary" onclick="__LT.go('overheads')">Decidir uso de overheads</button>
+    <button class="primary" onclick="__LT.go('santiago')">Hablar con Santiago</button>
+    <button class="primary" onclick="__LT.go('pitime')">Tiempo del IP</button>
+    <button class="primary" onclick="__LT.go('overheads')">Uso de overheads</button>
   </div>
 
   <h2>Estado del laboratorio</h2>
@@ -1326,7 +1326,7 @@ height:100vh;
   <button class="${STATE.piTime==="collab"?"primary":""}" onclick="__LT.setPITime('collab')"> Colaboraciones ( +2 )</button>
   </div>
   <div class="notice">
-  <div class="muted">Bono = influencia en el número de proyectos escritos (y algo en éxito).</div>
+  <div class="muted">Esta decisión define a qué dedica el Investigador Principal (tú) la mayor parte de sus horas este año. Leer y Formarte sube mucho el número de ideas. Coordinar personal sube un poco el número de Proyectos Escritos y el Ratio de éxito (% de concedidos), y sube un poco el número de ideas. Colaboraciones sube mucho el número de Proyectos Escritos y el Ratio de éxito (% de concedidos)</div>
   </div>
   <div class="btns">
   <button onclick="__LT.go('year')">Volver</button>
