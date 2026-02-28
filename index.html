@@ -113,6 +113,12 @@ height:100vh;
   }
   button:disabled{
   opacity:.45; cursor:not-allowed;
+  }
+  button.active-choice{
+  background: linear-gradient(180deg, rgba(104,240,138,.28), rgba(104,240,138,.10));
+  border-color: rgba(104,240,138,.80);
+  color: var(--good);
+  box-shadow: 0 0 8px rgba(104,240,138,.30);
   }.kbd{
   display:inline-block;
   border:1px solid var(--line);
@@ -899,6 +905,42 @@ height:100vh;
   }
 
   /* =========================================================
+  Textos descriptivos para opciones activas
+  ========================================================= */
+  function getOverheadStatusText(){
+  if (!STATE.overheadChoice) return "—";
+  if (STATE.overheadChoice === "extraStaff"){
+  const sv = STATE.overheadTemp.staffVirtual;
+  if (sv.AM > 0) return " Personal extra +1 Manager Administrativo";
+  if (sv.T  > 0) return " Personal extra +1 Técnico de laboratorio";
+  return " Personal extra";
+  }
+  if (STATE.overheadChoice === "extraAI"){
+  const v = STATE.overheadTemp.aiVirtual;
+  const parts = [];
+  if ((v.GPT||0) > 0) parts.push(`+${v.GPT} GPT`);
+  if ((v.AGI||0) > 0) parts.push(`+${v.AGI} AGI`);
+  if ((v.PI||0)  > 0) parts.push(`+${v.PI} PI`);
+  return " IA extra (virtual)" + (parts.length? " " + parts.join(" "): "");
+  }
+  if (STATE.overheadChoice === "extraEquip"){
+  const ve = STATE.overheadTemp.equipVirtual;
+  if (ve.MED  > 0) return " Equipamiento temporal -  Equipo de laboratorio";
+  if (ve.HIGH > 0) return " Equipamiento temporal - Gran Equipo";
+  return " Equipamiento (virtual)";
+  }
+  if (STATE.overheadChoice === "institution") return " Institución gestiona los overheads";
+  return "La Institución a la que perteneces gestiona los overheads, lo que mejora tu eficiencia operativa ( ) y tu reputación () ";
+  }
+
+  function getPIStatusText(){
+  if (STATE.piTime === "read")   return " Leer/formarte (+0)";
+  if (STATE.piTime === "manage") return " Coordinar personal (+1)";
+  if (STATE.piTime === "collab") return " Colaboraciones (+2)";
+  return "—";
+  }
+
+  /* =========================================================
   Pantallas
   ========================================================= */
   function TitleScreen(){
@@ -906,7 +948,7 @@ height:100vh;
   <div class="topbar">
   <div class="brand">
   <div class="t">LAB TRAIL: 2027</div>
-  <div class="s">Simulador tipo Oregon Trail · Periodos anuales · Gestión de laboratorio</div>
+  <div class="s">Simulador de la puesta en marcha de un grupo de investigación universitario · Periodos anuales · Gestión de laboratorio</div>
   </div>
   <div class="row">
   <span class="pill">Mundo: <strong>${getWorldConfig().label}</strong></span>
@@ -918,8 +960,7 @@ height:100vh;
   <div class="card">
   <h2>Tu primer laboratorio</h2>
   <p class="muted">
-  Tienes un contrato en una universidad de prestigio. Tu misión es montar un laboratorio que sobreviva y crezca:
-  recursos → variables → proyectos → presupuesto → y vuelta a empezar.
+  Tienes un contrato en una universidad de prestigio. Tu misión es montar un laboratorio que sobreviva y crezca: tienes un presupuesto anual que depende de los proyectos que consigas. Gasta tu presupuesto de manera acertada en contratar personal, comprar equipamiento y agentes de inteligencia artificial. Decide como distribuir tu tiempo como IP y en qué invertir los recursos disponibles. ¡Atento a los eventos imprevistos! Si generas muchas ideas, proyectos escritos, publicaciones con impacto, tienes una reputación alta, etc. conseguirás más proyectos financiados y más presupuesto para el año siguiente.
   </p>
   <div class="notice warn">
   <div><strong>Atajos:</strong> en la introducción puedes pulsar <span class="kbd">ESPACIO</span>.</div>
@@ -937,9 +978,9 @@ height:100vh;
   <ul class="list">
   <li>El año se cierra con <strong>“Cerrar año”</strong>.</li>
   <li>Los <strong>equipos</strong> son permanentes.</li>
-  <li>El <strong>personal</strong> y la <strong>IA</strong> tienen mantenimiento anual.</li>
+  <li>El <strong>personal</strong> y la <strong>IA</strong> se renuevan anualmente si hay presupuesto suficiente.</li>
   <li>Si no puedes pagar, hay <strong>recortes automáticos</strong>.</li>
-  <li>Overheads y tiempo del IP son <strong>decisiones estratégicas</strong> (efecto temporal).</li>
+  <li>Los Overheads y el tiempo del IP son <strong>decisiones estratégicas</strong> (efecto temporal).</li>
   <li>Hay <strong>eventos aleatorios</strong> con duración y <strong>encadenados</strong> (flags máx 2).</li>
   </ul>
   <div class="sep"></div>
@@ -968,15 +1009,17 @@ height:100vh;
   <h2>Mensaje de Santiago</h2>
   <p class="muted">
   Hola, soy <strong>Santiago</strong>.<br>
-  ¡Así que vas a poner en marcha un laboratorio de investigación! Yo te puedo ayudar con lo que necesitas:
+  ¡Así que vas a poner en marcha un laboratorio de investigación! Yo te puedo ayudar con lo que necesitas. Acude a mi para decidir cómo gastar tu presupuesto anual:
   </p>
   <ul class="list">
   <li> personal investigador, técnico y de gestión</li>
   <li> equipamiento</li>
-  <li> materiales y consumibles (incluidos como coste operativo)</li>
+  <li> materiales y consumibles (incluidos automáticamente como coste operativo)</li>
   <li> módulos de inteligencia artificial</li>
-  <li> decidir cómo empleas tu tiempo como IP</li>
   </ul>
+  <p class="muted">
+  En la simulación también podrás decidir qué hacer con <strong>tiempo como IP</strong> y en qué invertir los <strong>recursos extras de overheads</strong>.<br>
+  </p>
 
   <div class="notice">
   <div class="muted">Pulsa <span class="kbd">ESPACIO</span> o el botón para empezar.</div>
@@ -1074,24 +1117,12 @@ height:100vh;
 
   <div class="sep"></div>
   <div class="notice">
-  <div><strong>Tiempo del IP:</strong> ${
-  STATE.piTime==="read"?" Leer/formarte":
-  STATE.piTime==="manage"?" Coordinar personal":
-  " Colaboraciones"
-  }</div>
+  <div><strong>Tiempo del IP:</strong> <span style="color:var(--good)">${getPIStatusText()}</span></div>
   <div class="muted small">Bono proyectos: <span class="mono">+${bonusTimePI()}</span></div>
   </div>
 
   <div class="notice">
-  <div><strong>Overheads (temporal):</strong> 
-  ${
-  STATE.overheadChoice? (
-  STATE.overheadChoice==="extraStaff"? " Personal extra (virtual)":
-  STATE.overheadChoice==="extraAI"? " IA extra (virtual)":
-  STATE.overheadChoice==="extraEquip"? " Equipamiento (virtual)":
-  " Institución gestiona"
-  ): "—"
-  }</div>
+  <div><strong>Overheads (temporal):</strong> <span style="color:var(--good)">${getOverheadStatusText()}</span></div>
   <div class="muted small">Efecto solo este periodo.</div>
   </div>
 
@@ -1310,20 +1341,16 @@ height:100vh;
   <div class="row">
   <span class="pill">Proyectos concedidos (est.): <strong>${pv.projectsGranted}</strong></span>
   <span class="pill">Próximo presupuesto (disp.): <strong>${eur(pv.nextBudgetAvailable)}</strong></span>
-  <span class="pill">Actual: <strong>${
-  STATE.piTime==="read"?"Leer/formarte":
-  STATE.piTime==="manage"?"Coordinar personal":
-  "Colaboraciones"
-  }</strong></span>
+  <span class="pill">Opción actual: <strong style="color:var(--good)">${getPIStatusText()}</strong></span>
   </div>
   </div>
 
   <div class="card" style="margin-top:12px">
   <h2>¿En qué te centras este año?</h2>
   <div class="btns">
-  <button class="${STATE.piTime==="read"?"primary":""}" onclick="__LT.setPITime('read')"> Leer y formarte ( +0 )</button>
-  <button class="${STATE.piTime==="manage"?"primary":""}" onclick="__LT.setPITime('manage')"> Coordinar personal ( +1 )</button>
-  <button class="${STATE.piTime==="collab"?"primary":""}" onclick="__LT.setPITime('collab')"> Colaboraciones ( +2 )</button>
+  <button class="${STATE.piTime==="read"?"active-choice":""}" onclick="__LT.setPITime('read')"> Leer y formarte ( +0 )</button>
+  <button class="${STATE.piTime==="manage"?"active-choice":""}" onclick="__LT.setPITime('manage')"> Coordinar personal ( +1 )</button>
+  <button class="${STATE.piTime==="collab"?"active-choice":""}" onclick="__LT.setPITime('collab')"> Colaboraciones ( +2 )</button>
   </div>
   <div class="notice">
   <div class="muted">Esta decisión define a qué dedica el Investigador Principal (tú) la mayor parte de sus horas este año. Leer y Formarte sube mucho el número de ideas. Coordinar personal sube un poco el número de Proyectos Escritos y el Ratio de éxito (% de concedidos), y sube un poco el número de ideas. Colaboraciones sube mucho el número de Proyectos Escritos y el Ratio de éxito (% de concedidos)</div>
@@ -1358,21 +1385,16 @@ height:100vh;
   <div class="card" style="margin-top:12px">
   <h2>Elige una política de overheads</h2>
   <div class="btns">
-  <button onclick="__LT.overExtraStaff()"> Contratar personal extra (virtual)</button>
-  <button onclick="__LT.overExtraAI()"> IA extra (virtual)</button>
-  <button onclick="__LT.overExtraEquip()"> Equipamiento (virtual)</button>
-  <button onclick="__LT.overInstitution()"> Mi institución gestiona (EficOp +2, Reput +1)</button>
+  <button class="${STATE.overheadChoice==="extraStaff"?"active-choice":""}" onclick="__LT.overExtraStaff()"> Contratar personal extra temporal</button>
+  <button class="${STATE.overheadChoice==="extraAI"?"active-choice":""}" onclick="__LT.overExtraAI()"> IA extra temporal</button>
+  <button class="${STATE.overheadChoice==="extraEquip"?"active-choice":""}" onclick="__LT.overExtraEquip()"> Equipamiento temporal</button>
+  <button class="${STATE.overheadChoice==="institution"?"active-choice":""}" onclick="__LT.overInstitution()"> Mi institución gestiona</button>
   </div>
 
   <div class="sep"></div>
 
   <div class="notice">
-  <div><strong>Opción actual:</strong> ${
-  STATE.overheadChoice?
-  (STATE.overheadChoice==="extraStaff"?" Personal extra (virtual)":
-  STATE.overheadChoice==="extraAI"?" IA extra (virtual)":
-  STATE.overheadChoice==="extraEquip"?" Equipamiento (virtual)":" Institución gestiona"): "—"
-  }</div>
+  <div><strong>Opción actual:</strong> <span style="color:var(--good)">${getOverheadStatusText()}</span></div>
   <div class="muted small">Se reinicia cada año al cerrar periodo.</div>
   </div>
 
@@ -1399,9 +1421,12 @@ height:100vh;
 
   <div class="card" style="margin-top:12px">
   <h2>¿A quién refuerzas este año?</h2>
+  <div class="notice" style="margin-bottom:10px">
+  <div><strong>Opción actual:</strong> <span style="color:var(--good)">${getOverheadStatusText()}</span></div>
+  </div>
   <div class="btns">
-  <button class="primary" onclick="__LT.pickVirtualStaff('AM')">+1 AM virtual (Eficiencia)</button>
-  <button class="primary" onclick="__LT.pickVirtualStaff('T')">+1 T virtual (Capacidad/Ideas)</button>
+  <button class="${(STATE.overheadChoice==="extraStaff"&&STATE.overheadTemp.staffVirtual.AM>0)?"active-choice":"primary"}" onclick="__LT.pickVirtualStaff('AM')">+1 AM virtual (Eficiencia)</button>
+  <button class="${(STATE.overheadChoice==="extraStaff"&&STATE.overheadTemp.staffVirtual.T>0)?"active-choice":"primary"}" onclick="__LT.pickVirtualStaff('T')">+1 T virtual (Capacidad/Ideas)</button>
   </div>
   <div class="btns">
   <button onclick="__LT.go('overheads')">Volver</button>
@@ -1426,9 +1451,12 @@ height:100vh;
 
   <div class="card" style="margin-top:12px">
   <h2>¿Qué acceso te conceden este año?</h2>
+  <div class="notice" style="margin-bottom:10px">
+  <div><strong>Opción actual:</strong> <span style="color:var(--good)">${getOverheadStatusText()}</span></div>
+  </div>
   <div class="btns">
-  <button class="primary" onclick="__LT.pickVirtualEquip('MED')">Equipo medio virtual (Cap +2, Prod +1)</button>
-  <button class="primary" onclick="__LT.pickVirtualEquip('HIGH')">Equipo alto virtual (Cap +7, Prod +4)</button>
+  <button class="${(STATE.overheadChoice==="extraEquip"&&STATE.overheadTemp.equipVirtual.MED>0)?"active-choice":"primary"}" onclick="__LT.pickVirtualEquip('MED')">Equipo medio virtual (Cap +2, Prod +1)</button>
+  <button class="${(STATE.overheadChoice==="extraEquip"&&STATE.overheadTemp.equipVirtual.HIGH>0)?"active-choice":"primary"}" onclick="__LT.pickVirtualEquip('HIGH')">Equipo alto virtual (Cap +7, Prod +4)</button>
   </div>
   <div class="btns">
   <button onclick="__LT.go('overheads')">Volver</button>
@@ -1495,6 +1523,9 @@ height:100vh;
   <div class="btns">
   <button class="primary" onclick="__LT.confirmVirtualAI()">Confirmar</button>
   <button onclick="__LT.go('overheads')">Volver</button>
+  </div>
+  <div class="notice" style="margin-top:10px">
+  <div><strong>Opción actual:</strong> <span style="color:var(--good)">${getOverheadStatusText()}</span></div>
   </div>
   </div>
   `;
@@ -1727,7 +1758,7 @@ height:100vh;
   resetOverheadTemp();
   applyOverheadInstitution();
   save();
-  toast("La institución gestiona overheads (solo este año).");
+  toast("La institución gestiona overheads este año.");
   render();
   },
 
